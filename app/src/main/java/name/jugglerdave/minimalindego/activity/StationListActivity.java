@@ -1,4 +1,4 @@
-package name.jugglerdave.minimalindego;
+package name.jugglerdave.minimalindego.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,16 +19,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.model.Constants;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.model.StationList;
 import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoAPIReader;
+import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 
 
 public class StationListActivity extends ActionBarActivity {
     public static final String LOG_TAG="IndegoAPIReader";
 
-    private ArrayAdapter stationlistadapter;
+    private StationListArrayAdapter stationlistadapter;
+    private StationList stats;
     private Station[] stationArray;
 
     @Override
@@ -37,13 +40,15 @@ public class StationListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
         try {
-            StationList stats = IndegoAPIReader.readStationList();
+            stats = null;
+            stats = IndegoAPIReader.readStationList();
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
             tv.setText("Updated " + ds + " - found " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
-            stationlistadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stationArray);
+            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, stationArray);
+            sortByCurrentSortType();
             lv.setAdapter(stationlistadapter);
             registerForContextMenu(lv);
 
@@ -85,21 +90,25 @@ public class StationListActivity extends ActionBarActivity {
         }
         else if(id == R.id.action_sort_name)
         {
+            Constants.setCurrent_station_list_sort("NAME");
             sortByName();
             return true;
         }
         else if(id == R.id.action_sort_bikes)
         {
+            Constants.setCurrent_station_list_sort("BIKES");
             sortByBikes();
             return true;
         }
         else if(id == R.id.action_sort_docks)
         {
+            Constants.setCurrent_station_list_sort("DOCKS");
             sortByDocks();
             return true;
         }
         else if(id == R.id.action_sort_distance)
         {
+            Constants.setCurrent_station_list_sort("DISTANCE");
             sortByDistance();
             return true;
         }
@@ -127,12 +136,16 @@ public class StationListActivity extends ActionBarActivity {
     {
         ListView lv = (ListView)findViewById(R.id.stationListView);
         try {
-            StationList stats = IndegoAPIReader.readStationList();
+            stats = null;
+            stats = IndegoAPIReader.readStationList();
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
             tv.setText("Updated " + ds + " - found " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(stationArray);
+
+            //re-sort
+            sortByCurrentSortType();
             stationlistadapter.notifyDataSetChanged();
 
 
@@ -141,6 +154,29 @@ public class StationListActivity extends ActionBarActivity {
         }
 
     }
+
+    public void sortByCurrentSortType()
+    {
+        switch (Constants.getCurrent_station_list_sort()) {
+            case "DISTANCE":
+                sortByDistance();
+                break;
+            case "DOCKS":
+                sortByDocks();
+                break;
+            case "BIKES":
+                sortByBikes();
+                break;
+            case "NAME":
+                sortByName();
+                break;
+            default:
+                sortByDistance();
+        }
+
+
+    }
+
 
     public void sortByName() {
         if (stationArray == null) return;
@@ -161,6 +197,7 @@ public class StationListActivity extends ActionBarActivity {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new DocksSorter());
+
         stationlistadapter.notifyDataSetChanged();
         //ArrayList<Station> station_arraylist = new ArrayList<Station>(Array<Station>.);    }
     }

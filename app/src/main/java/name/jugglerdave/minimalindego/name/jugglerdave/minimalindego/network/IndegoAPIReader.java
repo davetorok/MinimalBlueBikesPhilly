@@ -51,7 +51,7 @@ public class IndegoAPIReader {
                 return jsonToStationList(sb.toString());
 
         } catch (Exception ex) {
-            //TODO: how to log in Android
+
             Log.e(LOG_TAG,"Can't read Indego HTTPS" + ex.getClass().getName());
             throw new Exception("Couldn't get the API");
         }

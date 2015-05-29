@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:longClickable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:focusableInTouchMode="true">
+
+       <TextView
+        android:id="@+id/stationNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingTop="10dp"
+        android:text="StationName"
+           android:gravity="fill_horizontal"
+           android:layout_weight="1"/>
+
+        <name.jugglerdave.minimalindego.view.BikeIconImageView
+            android:id="@+id/bikeIconView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/stationNameView"
+            android:paddingRight="3dp"
+            android:paddingLeft="3dp"
+            android:src="@drawable/bicycleicon"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/bikesCountView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bikeIconView"
+
+            android:layout_centerVertical="true"
+            android:paddingTop="10dp"
+            android:text="123"/>
+
+        <TextView
+            android:id="@+id/docksCountView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bikesCountView"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:gravity="end"
+            android:text="456" />
+
+
+
+
+
+</LinearLayout>

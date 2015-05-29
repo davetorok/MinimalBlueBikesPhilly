@@ -10,6 +10,10 @@ public class Constants {
     public final static double default_position_geo_long = -75.17971;
     public final static double default_position_geo_lat = 39.94527;
 
+    public final static String default_sort="DISTANCE";
+
+    public static String current_station_list_sort = default_sort;
+
     public static double current_position_geo_long = default_position_geo_long;
     public static double current_position_geo_lat = default_position_geo_lat;
 
@@ -27,6 +31,14 @@ public class Constants {
 
     public static void setCurrent_position_geo_long(double current_position_geo_long) {
         Constants.current_position_geo_long = current_position_geo_long;
+    }
+
+    public static String getCurrent_station_list_sort() {
+        return current_station_list_sort;
+    }
+
+    public static void setCurrent_station_list_sort(String current_station_list_sort) {
+        Constants.current_station_list_sort = current_station_list_sort;
     }
 
     public static double getMilesDistanceFromCurrent(Station stat)
