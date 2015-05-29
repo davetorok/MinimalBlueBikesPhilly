@@ -25,14 +25,15 @@
             android:layout_toRightOf="@+id/stationNameView"
             android:paddingRight="3dp"
             android:paddingLeft="3dp"
-            android:src="@drawable/bicycleicon"
             android:maxHeight="50dp"
             android:maxWidth="50dp"
             android:cropToPadding="false"
             android:adjustViewBounds="true"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:background="#ffff8527"
+            android:src="@drawable/bicycleicon" />
 
         <TextView
             android:id="@+id/bikesCountView"

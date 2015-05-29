@@ -1,5 +1,6 @@
 package name.jugglerdave.minimalindego.view;
 
+import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -51,6 +52,17 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         }
         Station this_station = getItem(position);
         viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon);
+
+        //try changing color based on bikes
+        float percentfull = (float).5 + ((float)0.5 * (float)(this_station.getBikesAvailable()) /  (float)(this_station.getBikesAvailable() + this_station.getDocksAvailable()));
+       if (this_station.getBikesAvailable() == 0)
+        {viewHolder.bikeIconImageView.setBackgroundColor(Color.RED); }
+        else if (this_station.getBikesAvailable() <= 2)
+        {viewHolder.bikeIconImageView.setBackgroundColor(Color.YELLOW); }
+        else {
+           viewHolder.bikeIconImageView.setBackgroundColor(Color.argb(255,(int)(percentfull*2),(int)(percentfull*164),(int)(percentfull*255)));
+
+       }
         viewHolder.stationNameTextView.setText(this_station.getStation_name()+  " " +  String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " + (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
         viewHolder.bikesCountTextView.setText("B:" + this_station.getBikesAvailable());
