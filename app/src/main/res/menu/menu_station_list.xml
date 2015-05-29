@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".StationListActivity">
+    <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_sort_name" android:title="@string/action_sort_name"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_sort_bikes" android:title="@string/action_sort_bikes"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_sort_docks" android:title="@string/action_sort_docks"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_sort_distance" android:title="@string/action_sort_distance"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="110" app:showAsAction="never" />
+</menu>
