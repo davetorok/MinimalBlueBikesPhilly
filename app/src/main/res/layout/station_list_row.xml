@@ -15,7 +15,9 @@
         android:paddingTop="10dp"
         android:text="StationName"
            android:gravity="fill_horizontal"
-           android:layout_weight="1"/>
+           android:layout_weight="1"
+           android:singleLine="false"
+           android:paddingLeft="5dp" />
 
         <name.jugglerdave.minimalindego.view.BikeIconImageView
             android:id="@+id/bikeIconView"
@@ -31,7 +33,7 @@
             android:adjustViewBounds="true"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:background="#ffff8527"
             android:src="@drawable/bicycleicon" />
 
@@ -43,7 +45,12 @@
 
             android:layout_centerVertical="true"
             android:paddingTop="10dp"
-            android:text="123"/>
+            android:text="23"
+            android:maxEms="3"
+            android:ems="2"
+            android:textColor="#ff02a4ff"
+            android:gravity="end"
+            android:paddingRight="10dp" />
 
         <TextView
             android:id="@+id/docksCountView"
@@ -55,7 +62,10 @@
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:gravity="end"
-            android:text="456" />
+            android:maxEms="3"
+            android:ems="2"
+            android:text="15"
+            android:textColor="@android:color/black" />
 
 
 

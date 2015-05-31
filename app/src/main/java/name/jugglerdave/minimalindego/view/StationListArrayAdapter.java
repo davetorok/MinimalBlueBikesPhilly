@@ -48,14 +48,26 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
             viewHolder.docksCountTextView = (TextView) row.findViewById(R.id.docksCountView);
             row.setTag(viewHolder);
         } else {
-            viewHolder = (StationRowViewHolder)row.getTag();
+            viewHolder = (StationRowViewHolder) row.getTag();
         }
         Station this_station = getItem(position);
         viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon);
 
-        //try changing color based on bikes
-        float percentfull = (float).5 + ((float)0.5 * (float)(this_station.getBikesAvailable()) /  (float)(this_station.getBikesAvailable() + this_station.getDocksAvailable()));
-       if (this_station.getBikesAvailable() == 0)
+        //try changing color based on bikes available and inactive/active status
+        float percentfull = (float) .5 + ((float) 0.5 * (float) (this_station.getBikesAvailable()) / (float) (this_station.getBikesAvailable() + this_station.getDocksAvailable()));
+        if (this_station.getKioskPublicStatus().equalsIgnoreCase("Active"))
+
+        {
+            viewHolder.stationNameTextView.setTextColor(Color.BLACK);
+        }
+
+
+        if  (!this_station.getKioskPublicStatus().equalsIgnoreCase("Active"))
+
+           {viewHolder.bikeIconImageView.setBackgroundColor(Color.GRAY);
+           viewHolder.stationNameTextView.setTextColor(Color.GRAY);}
+
+           else if    (this_station.getBikesAvailable() == 0)
         {viewHolder.bikeIconImageView.setBackgroundColor(Color.RED); }
         else if (this_station.getBikesAvailable() <= 2)
         {viewHolder.bikeIconImageView.setBackgroundColor(Color.YELLOW); }
@@ -63,10 +75,22 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
            viewHolder.bikeIconImageView.setBackgroundColor(Color.argb(255,(int)(percentfull*2),(int)(percentfull*164),(int)(percentfull*255)));
 
        }
+
+        //set docks available warning color
+        if (this_station.getDocksAvailable() == 0)
+        { viewHolder.docksCountTextView.setTextColor(Color.RED); }
+        else if (this_station.getDocksAvailable() <= 2)
+        { viewHolder.docksCountTextView.setTextColor(Color.MAGENTA);}
+        else {
+            viewHolder.docksCountTextView.setTextColor(Color.BLACK);
+        }
+
+
+
         viewHolder.stationNameTextView.setText(this_station.getStation_name()+  " " +  String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " + (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
-        viewHolder.bikesCountTextView.setText("B:" + this_station.getBikesAvailable());
-        viewHolder.docksCountTextView.setText("D:" + this_station.getDocksAvailable());
+        viewHolder.bikesCountTextView.setText("" + this_station.getBikesAvailable());
+        viewHolder.docksCountTextView.setText("" + this_station.getDocksAvailable());
         return row;
     }
 

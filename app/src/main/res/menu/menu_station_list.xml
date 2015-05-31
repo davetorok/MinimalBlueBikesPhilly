@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".StationListActivity">
     <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="100" app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_refresh_black_24dp"/>
     <item android:id="@+id/action_sort_name" android:title="@string/action_sort_name"
         android:orderInCategory="110" app:showAsAction="never" />
     <item android:id="@+id/action_sort_bikes" android:title="@string/action_sort_bikes"

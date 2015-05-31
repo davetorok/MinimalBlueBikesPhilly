@@ -45,7 +45,7 @@ public class StationListActivity extends ActionBarActivity {
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
-            tv.setText("Updated " + ds + " - found " + stats.stations.size() + " stations");
+            tv.setText(  ds + ", " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
             stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, stationArray);
             sortByCurrentSortType();
@@ -141,7 +141,7 @@ public class StationListActivity extends ActionBarActivity {
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
-            tv.setText("Updated " + ds + " - found " + stats.stations.size() + " stations");
+            tv.setText( ds + ", " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(stationArray);
 
             //re-sort
