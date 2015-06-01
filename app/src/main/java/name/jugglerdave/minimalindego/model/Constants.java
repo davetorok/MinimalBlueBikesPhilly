@@ -1,6 +1,7 @@
 package name.jugglerdave.minimalindego.model;
 
 import android.location.Location;
+import android.util.Log;
 
 /**
  * Created by dtorok on 5/23/2015.
@@ -9,6 +10,7 @@ public class Constants {
     // default is 23rd and south station
     public final static double default_position_geo_long = -75.17971;
     public final static double default_position_geo_lat = 39.94527;
+    public static final String LOG_TAG="Constants";
 
     public final static String default_sort="DISTANCE";
 
@@ -48,6 +50,27 @@ public class Constants {
         Location.distanceBetween(stat.getGeo_lat(), stat.getGeo_long(), current_position_geo_lat, current_position_geo_long, result_meters);
 
         return result_meters == null ? 0 : result_meters[0] * 0.000621371;
+
+    }
+
+    public static double getGridMilesDistanceFromCurrent(Station stat)
+    {
+        double phila_map_tilt = Math.toRadians(9.8);
+        double tan_t = Math.tan(phila_map_tilt);
+        double cos_t = Math.cos(phila_map_tilt);
+        double sincos_t = cos_t + Math.sin(phila_map_tilt);
+        double long_factor = 52.965585282339968661134002669607;
+        double lat_factor = 69.095882522315001439677512237259;
+        //l - mtan(9.8)   (cos(9.8) + sin(9.8) + m / (cos(9.8)
+
+        double long_miles = (stat.getGeo_long() - current_position_geo_long) * long_factor;
+        double lat_miles =  (stat.getGeo_lat() -current_position_geo_lat) * lat_factor;
+        Log.d(LOG_TAG, "long_miles = " + long_miles + " lat_miles = " + lat_miles);
+
+        double the_answer = Math.abs((long_miles - (lat_miles * tan_t)) * sincos_t + (lat_miles / cos_t));
+        Log.d(LOG_TAG, "grid_miles for station " + stat.getStation_name() + " = " +  the_answer);
+
+        return the_answer;
 
     }
 

@@ -67,9 +67,9 @@
             android:text="23"
             android:maxEms="3"
             android:ems="2"
-            android:textColor="#ff02a4ff"
-            android:gravity="end"
-            android:paddingRight="10dp" />
+            android:textColor="#ff0280cd"
+            android:paddingRight="10dp"
+            android:gravity="end" />
 
         <TextView
             android:id="@+id/docksCountView"

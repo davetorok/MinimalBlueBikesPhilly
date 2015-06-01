@@ -24,6 +24,9 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
     public static final String LOG_TAG="StationListArrayAdapter";
     private Station[] stationArray;
 
+    private int nav_arrow_orig_width = -1; // will be set on first use
+    private int nav_arrow_orig_height = -1; // will be set on first use
+
     static class StationRowViewHolder {
         ImageView bikeIconImageView;
         ImageView bearingImageView;
@@ -93,21 +96,30 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         else {
             viewHolder.docksCountTextView.setTextColor(Color.BLACK);
         }
-       Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow);
+
+        if (nav_arrow_orig_height < 0 || nav_arrow_orig_width < 0) {
+            Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow);
+            nav_arrow_orig_width = orig_blue_arrow.getWidth();
+            nav_arrow_orig_height = orig_blue_arrow.getHeight();
+        }
        Matrix matrix = new Matrix();
         viewHolder.bearingImageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
-        matrix.preScale((float) 30.0 / orig_blue_arrow.getWidth(), (float) 20.0 / orig_blue_arrow.getHeight());
+        matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);
      //   matrix.postScale((float) viewHolder.bearingImageView.getWidth() / orig_blue_arrow.getWidth(), (float) viewHolder.bearingImageView.getHeight() / orig_blue_arrow.getHeight());
         matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - (float) 90.0, 15, 10);
      //   matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station),viewHolder.bearingImageView.getDrawable().getBounds().width()/2, viewHolder.bearingImageView.getDrawable().getBounds().height()/2);
         viewHolder.bearingImageView.setImageMatrix(matrix);
 
         viewHolder.stationNameTextView.setText(this_station.getStation_name() + " " +
-                String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
+                // rectangular grid distance
+     //           String.format("%.2f", Constants.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
+     // straight line distance
+               String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
 
                 (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
-        Log.d(LOG_TAG, "Bearing" + this_station.getStation_name() +  "[" + Constants.getBearingToFromCurrent(this_station) + "]" );
+        Log.d(LOG_TAG, "Bearing" + this_station.getStation_name() + "[" + Constants.getBearingToFromCurrent(this_station) + "]");
+        Log.d(LOG_TAG, "GridMilesDistance" + this_station.getStation_name() + "[" + Constants.getGridMilesDistanceFromCurrent(this_station) + "]" );
 
 
         viewHolder.bikesCountTextView.setText("" + this_station.getBikesAvailable());
