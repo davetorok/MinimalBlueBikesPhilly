@@ -13,6 +13,8 @@ public class Station {
     double geo_lat;
     double geo_long;
 
+    String station_hint; //added for MinimalIndego, not from API
+
     public String getKioskId() {
         return kioskId;
     }

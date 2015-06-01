@@ -51,6 +51,15 @@ public class Constants {
 
     }
 
+    public static float getBearingToFromCurrent(Station stat)
+    {
+        float[] result_meters = new float[2];
+        Location.distanceBetween(stat.getGeo_lat(), stat.getGeo_long(), current_position_geo_lat, current_position_geo_long, result_meters);
+
+        return result_meters == null ? -1 : result_meters[1];
+
+    }
+
 }
 
 

@@ -19,12 +19,31 @@
            android:singleLine="false"
            android:paddingLeft="5dp" />
 
-        <name.jugglerdave.minimalindego.view.BikeIconImageView
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:id="@+id/bearingImageView"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@+id/stationNameView"
+        android:cropToPadding="false"
+
+        android:maxWidth="30dp"
+        android:maxHeight="50dp"
+        android:src="@drawable/bearingarrow"
+        android:scaleType="centerInside"
+        android:alpha="255"
+        android:padding="4dp" />
+
+    <name.jugglerdave.minimalindego.view.BikeIconImageView
             android:id="@+id/bikeIconView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/stationNameView"
+        android:layout_gravity="center_vertical"
+
+        android:layout_toRightOf="@+id/bearingImageView"
             android:paddingRight="3dp"
             android:paddingLeft="3dp"
             android:maxHeight="50dp"

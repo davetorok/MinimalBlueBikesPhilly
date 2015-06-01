@@ -1,6 +1,8 @@
 package name.jugglerdave.minimalindego.view;
 
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,6 +26,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
 
     static class StationRowViewHolder {
         ImageView bikeIconImageView;
+        ImageView bearingImageView;
         TextView stationNameTextView;
         TextView bikesCountTextView;
         TextView docksCountTextView;
@@ -43,6 +46,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
             row = inflater.inflate(R.layout.station_list_row, parent, false);
             viewHolder = new StationRowViewHolder();
             viewHolder.bikeIconImageView = (ImageView) row.findViewById(R.id.bikeIconView);
+            viewHolder.bearingImageView = (ImageView) row.findViewById(R.id.bearingImageView);
             viewHolder.stationNameTextView = (TextView) row.findViewById(R.id.stationNameView);
             viewHolder.bikesCountTextView = (TextView) row.findViewById(R.id.bikesCountView);
             viewHolder.docksCountTextView = (TextView) row.findViewById(R.id.docksCountView);
@@ -56,24 +60,29 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         //try changing color based on bikes available and inactive/active status
         float percentfull = (float) .5 + ((float) 0.5 * (float) (this_station.getBikesAvailable()) / (float) (this_station.getBikesAvailable() + this_station.getDocksAvailable()));
         if (this_station.getKioskPublicStatus().equalsIgnoreCase("Active"))
-
         {
             viewHolder.stationNameTextView.setTextColor(Color.BLACK);
         }
 
 
         if  (!this_station.getKioskPublicStatus().equalsIgnoreCase("Active"))
+        {
+            viewHolder.bikeIconImageView.setBackgroundColor(Color.GRAY);
+            viewHolder.stationNameTextView.setTextColor(Color.GRAY);}
 
-           {viewHolder.bikeIconImageView.setBackgroundColor(Color.GRAY);
-           viewHolder.stationNameTextView.setTextColor(Color.GRAY);}
-
-           else if    (this_station.getBikesAvailable() == 0)
-        {viewHolder.bikeIconImageView.setBackgroundColor(Color.RED); }
+        else if    (this_station.getBikesAvailable() == 0)
+        {
+            viewHolder.bikeIconImageView.setBackgroundColor(Color.RED);
+            viewHolder.bikesCountTextView.setTextColor(Color.RED);
+        }
         else if (this_station.getBikesAvailable() <= 2)
-        {viewHolder.bikeIconImageView.setBackgroundColor(Color.YELLOW); }
+        {
+            viewHolder.bikeIconImageView.setBackgroundColor(Color.YELLOW);
+            viewHolder.bikesCountTextView.setTextColor(viewHolder.bikesCountTextView.getResources().getColor(R.color.bikes_available_text_color));
+        }
         else {
-           viewHolder.bikeIconImageView.setBackgroundColor(Color.argb(255,(int)(percentfull*2),(int)(percentfull*164),(int)(percentfull*255)));
-
+            viewHolder.bikeIconImageView.setBackgroundColor(Color.argb(255,(int)(percentfull*2),(int)(percentfull*164),(int)(percentfull*255)));
+            viewHolder.bikesCountTextView.setTextColor(viewHolder.bikesCountTextView.getResources().getColor(R.color.bikes_available_text_color));
        }
 
         //set docks available warning color
@@ -84,11 +93,23 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         else {
             viewHolder.docksCountTextView.setTextColor(Color.BLACK);
         }
+       Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow);
+       Matrix matrix = new Matrix();
+        viewHolder.bearingImageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
+        matrix.preScale((float) 30.0 / orig_blue_arrow.getWidth(), (float) 20.0 / orig_blue_arrow.getHeight());
+     //   matrix.postScale((float) viewHolder.bearingImageView.getWidth() / orig_blue_arrow.getWidth(), (float) viewHolder.bearingImageView.getHeight() / orig_blue_arrow.getHeight());
+        matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - (float) 90.0, 15, 10);
+     //   matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station),viewHolder.bearingImageView.getDrawable().getBounds().width()/2, viewHolder.bearingImageView.getDrawable().getBounds().height()/2);
+        viewHolder.bearingImageView.setImageMatrix(matrix);
 
+        viewHolder.stationNameTextView.setText(this_station.getStation_name() + " " +
+                String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
 
-
-        viewHolder.stationNameTextView.setText(this_station.getStation_name()+  " " +  String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " + (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
+                (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
+        Log.d(LOG_TAG, "Bearing" + this_station.getStation_name() +  "[" + Constants.getBearingToFromCurrent(this_station) + "]" );
+
+
         viewHolder.bikesCountTextView.setText("" + this_station.getBikesAvailable());
         viewHolder.docksCountTextView.setText("" + this_station.getDocksAvailable());
         return row;
