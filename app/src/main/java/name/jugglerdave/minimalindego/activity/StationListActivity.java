@@ -23,6 +23,7 @@ import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.model.Constants;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.model.StationList;
+import name.jugglerdave.minimalindego.model.StationStatistics;
 import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoAPIReader;
 import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 
@@ -33,6 +34,7 @@ public class StationListActivity extends ActionBarActivity {
     private StationListArrayAdapter stationlistadapter;
     private StationList stats;
     private Station[] stationArray;
+    private StationStatistics stationStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class StationListActivity extends ActionBarActivity {
         try {
             stats = null;
             stats = IndegoAPIReader.readStationList();
+            stationStats = new StationStatistics(stats);
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
@@ -112,6 +115,12 @@ public class StationListActivity extends ActionBarActivity {
             sortByDistance();
             return true;
         }
+        else if(id == R.id.action_sort_direction)
+        {
+            Constants.setCurrent_station_list_sort("DIRECTION");
+            sortByDirection();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -125,7 +134,7 @@ public class StationListActivity extends ActionBarActivity {
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
                 Constants.setCurrent_position_geo_lat(stationArray[(int) info.id].getGeo_lat());
                 Constants.setCurrent_position_geo_long(stationArray[(int)info.id].getGeo_long());
-                sortByDistance();
+                sortByCurrentSortType();
                 return true;
 
             default:
@@ -138,6 +147,7 @@ public class StationListActivity extends ActionBarActivity {
         try {
             stats = null;
             stats = IndegoAPIReader.readStationList();
+            stationStats = new StationStatistics(stats);
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
@@ -170,6 +180,9 @@ public class StationListActivity extends ActionBarActivity {
             case "NAME":
                 sortByName();
                 break;
+            case "DIRECTION":
+                sortByDirection();
+                break;
             default:
                 sortByDistance();
         }
@@ -183,7 +196,7 @@ public class StationListActivity extends ActionBarActivity {
 
         Arrays.sort(stationArray, new NameSorter());
         stationlistadapter.notifyDataSetChanged();
-        //ArrayList<Station> station_arraylist = new ArrayList<Station>(Array<Station>.);    }
+
     }
     public void sortByBikes() {
         if (stationArray == null) return;
@@ -199,14 +212,21 @@ public class StationListActivity extends ActionBarActivity {
         Arrays.sort(stationArray, new DocksSorter());
 
         stationlistadapter.notifyDataSetChanged();
-        //ArrayList<Station> station_arraylist = new ArrayList<Station>(Array<Station>.);    }
+
     }
     public void sortByDistance() {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new DistanceSorter());
         stationlistadapter.notifyDataSetChanged();
-        //ArrayList<Station> station_arraylist = new ArrayList<Station>(Array<Station>.);    }
+
+    }
+    public void sortByDirection() {
+        if (stationArray == null) return;
+
+        Arrays.sort(stationArray, new DirectionSorter());
+        stationlistadapter.notifyDataSetChanged();
+
     }
 
     class NameSorter implements Comparator<Station> {
@@ -233,8 +253,18 @@ public class StationListActivity extends ActionBarActivity {
     class DistanceSorter implements Comparator<Station> {
         public int compare(Station left, Station right)
         {
-            return Constants.getMilesDistanceFromCurrent(left) <  Constants.getMilesDistanceFromCurrent(right) ? -1 : 11;
+            return Constants.getGridMilesDistanceFromCurrent(left) <  Constants.getGridMilesDistanceFromCurrent(right) ? -1 : 1;
+            // TODO support preference for Grid vs. Air distance
+            // return Constants.getMilesDistanceFromCurrent(left) <  Constants.getMilesDistanceFromCurrent(right) ? -1 : 1;
         }
     }
+    class DirectionSorter implements Comparator<Station> {
+        public int compare(Station left, Station right)
+        {
+            return (Constants.getBearingToFromCurrent(left)+90) <  (Constants.getBearingToFromCurrent(right)+90) ? -1 : 1;
+
+        }
+    }
+
 }
 

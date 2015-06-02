@@ -26,6 +26,8 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
 
     private int nav_arrow_orig_width = -1; // will be set on first use
     private int nav_arrow_orig_height = -1; // will be set on first use
+    private int current_location_orig_width = -1; // will be set on first use
+    private int current_location_orig_height = -1; // will be set on first use
 
     static class StationRowViewHolder {
         ImageView bikeIconImageView;
@@ -102,19 +104,36 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
             nav_arrow_orig_width = orig_blue_arrow.getWidth();
             nav_arrow_orig_height = orig_blue_arrow.getHeight();
         }
-       Matrix matrix = new Matrix();
+
+        if (current_location_orig_height < 0 || current_location_orig_width < 0) {
+            Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.currentlocationicon);
+            current_location_orig_width = orig_blue_arrow.getWidth();
+            current_location_orig_height = orig_blue_arrow.getHeight();
+        }
+
+        Matrix matrix = new Matrix();
         viewHolder.bearingImageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
-        matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);
-     //   matrix.postScale((float) viewHolder.bearingImageView.getWidth() / orig_blue_arrow.getWidth(), (float) viewHolder.bearingImageView.getHeight() / orig_blue_arrow.getHeight());
-        matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - (float) 90.0, 15, 10);
-     //   matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station),viewHolder.bearingImageView.getDrawable().getBounds().width()/2, viewHolder.bearingImageView.getDrawable().getBounds().height()/2);
+
+
+        if (Constants.getGridMilesDistanceFromCurrent(this_station) > 0.05)
+        {
+            viewHolder.bearingImageView.setImageResource(R.drawable.bearingarrow);
+            matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);
+            //adjust bearing to account for philly grid tilt
+            matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) Constants.phila_map_tilt_degrees), 15, 10);
+
+        } else {
+            viewHolder.bearingImageView.setImageResource(R.drawable.currentlocationicon);
+            matrix.preScale((float) 30.0 / current_location_orig_width, (float) 30.0 / current_location_orig_height);
+
+        }
         viewHolder.bearingImageView.setImageMatrix(matrix);
 
         viewHolder.stationNameTextView.setText(this_station.getStation_name() + " " +
                 // rectangular grid distance
-     //           String.format("%.2f", Constants.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
+                String.format("%.2f", Constants.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
      // straight line distance
-               String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
+     //          String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
 
                 (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
