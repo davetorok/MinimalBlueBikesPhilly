@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/set_current_station"
         android:title="Set As Current Station" />
-
+    <item android:id="@+id/set_home_station"
+        android:title="Set As Home Station" />
 </menu>

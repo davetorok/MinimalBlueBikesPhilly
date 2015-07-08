@@ -1,5 +1,7 @@
 package name.jugglerdave.minimalindego.view;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
@@ -11,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import name.jugglerdave.minimalindego.activity.StationDetailActivity;
+import name.jugglerdave.minimalindego.activity.StationListActivity;
 import name.jugglerdave.minimalindego.model.Constants;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.R;
@@ -59,6 +64,30 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         } else {
             viewHolder = (StationRowViewHolder) row.getTag();
         }
+        final Context context = this.getContext();
+        //trying clickable
+        row.setClickable(true);
+        row.setFocusable(true);
+        row.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                StationRowViewHolder h = (StationRowViewHolder)v.getTag();
+                int position = (Integer) h.stationNameTextView.getTag();
+                h.stationNameTextView.getText();
+                //testing selection of row
+                // new AlertDialog.Builder(context).setTitle(v.getId()  + " " + h.stationNameTextView.getText()+" touched").show();
+
+                Intent intent = new Intent(v.getContext(), StationDetailActivity.class);
+                intent.putExtra(StationListActivity.EXTRA_MESSAGE_STATION_OBJECT, getItem(position));
+
+                intent.putExtra(StationListActivity.EXTRA_MESSAGE_STATION_NAME, h.stationNameTextView.getText());
+                v.getContext().startActivity(intent);
+
+            }
+
+        });
+
         Station this_station = getItem(position);
         viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon);
 
@@ -93,10 +122,14 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         //set docks available warning color
         if (this_station.getDocksAvailable() == 0)
         { viewHolder.docksCountTextView.setTextColor(Color.RED); }
-        else if (this_station.getDocksAvailable() <= 2)
-        { viewHolder.docksCountTextView.setTextColor(Color.MAGENTA);}
+          //viewHolder.docksCountTextView.setBackgroundColor(Color.RED);}
+        else if (this_station.getDocksAvailable() <= 2) {
+            viewHolder.docksCountTextView.setTextColor(Color.MAGENTA);
+            //viewHolder.docksCountTextView.setBackgroundColor(Color.YELLOW);}
+        }
         else {
             viewHolder.docksCountTextView.setTextColor(Color.BLACK);
+            //viewHolder.docksCountTextView.setBackgroundColor(Color.WHITE);
         }
 
         if (nav_arrow_orig_height < 0 || nav_arrow_orig_width < 0) {
@@ -143,6 +176,8 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
 
         viewHolder.bikesCountTextView.setText("" + this_station.getBikesAvailable());
         viewHolder.docksCountTextView.setText("" + this_station.getDocksAvailable());
+        // save position for onClick
+        viewHolder.stationNameTextView.setTag(position);
         return row;
     }
 

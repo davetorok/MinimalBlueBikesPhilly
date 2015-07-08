@@ -1,19 +1,22 @@
 package name.jugglerdave.minimalindego.model;
 
+import java.io.Serializable;
+
 /**
  * Created by dtorok on 5/15/2015.
  */
-public class Station {
+public class Station implements Serializable {
     String kioskId;
     String kioskPublicStatus;
     String station_name;
     String addressStreet;
     int docksAvailable;
     int bikesAvailable;
+    int totalDocks;
     double geo_lat;
     double geo_long;
 
-    String station_hint; //added for MinimalIndego, not from API
+    String station_hint; //added for MinimalBlueBikes, not from API
 
     public String getKioskId() {
         return kioskId;
@@ -80,7 +83,21 @@ public class Station {
         this.bikesAvailable = bikesAvailable;
     }
 
+    public int getTotalDocks() {
+        return totalDocks;
+    }
 
+    public void setTotalDocks(int totalDocks) {
+        this.totalDocks = totalDocks;
+    }
+
+    public String getStation_hint() {
+        return station_hint;
+    }
+
+    public void setStation_hint(String station_hint) {
+        this.station_hint = station_hint;
+    }
 
     public String toString()
     { return getStation_name() + " " +  String.format("%.2f",Constants.getMilesDistanceFromCurrent(this)) + " mi " +  "Bikes: " + getBikesAvailable() + " Docks:" + getDocksAvailable()

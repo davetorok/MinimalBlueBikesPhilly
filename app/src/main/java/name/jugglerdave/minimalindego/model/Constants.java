@@ -8,8 +8,9 @@ import android.util.Log;
  */
 public class Constants {
     // default is 23rd and south station
-    public final static double default_position_geo_long = -75.17971;
-    public final static double default_position_geo_lat = 39.94527;
+    public final static String default_home_kiosk_id = "3066";
+    public final static double default_position_geo_long = -75.17348;
+    public final static double default_position_geo_lat = 39.94561;
     public static final String LOG_TAG="Constants";
 
     public final static String default_sort="DISTANCE";
@@ -18,6 +19,10 @@ public class Constants {
     public static double tan_t = Math.tan(phila_map_tilt);
     public static double cos_t = Math.cos(phila_map_tilt);
     public static double sin_t = Math.sin(phila_map_tilt);
+
+    public static String home_station_kiosk_id = default_home_kiosk_id;
+    public static double home_station_geo_long = default_position_geo_long;
+    public static double home_station_geo_lat = default_position_geo_lat;
 
     public static String current_station_list_sort = default_sort;
 
@@ -94,6 +99,29 @@ public class Constants {
 
     }
 
+    public static String getHome_station_kiosk_id() {
+        return home_station_kiosk_id;
+    }
+
+    public static void setHome_station_kiosk_id(String home_station_kiosk_id) {
+        Constants.home_station_kiosk_id = home_station_kiosk_id;
+    }
+
+    public static double getHome_station_geo_long() {
+        return home_station_geo_long;
+    }
+
+    public static void setHome_station_geo_long(double home_station_geo_long) {
+        Constants.home_station_geo_long = home_station_geo_long;
+    }
+
+    public static double getHome_station_geo_lat() {
+        return home_station_geo_lat;
+    }
+
+    public static void setHome_station_geo_lat(double home_station_geo_lat) {
+        Constants.home_station_geo_lat = home_station_geo_lat;
+    }
 }
 
 

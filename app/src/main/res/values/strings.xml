@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MinimalIndego</string>
+    <string name="app_name">Minimal Blue Bikes Philly</string>
 
     <string name="string_lastRefreshInitial">(No Data Read)</string>
     <string name="action_settings">Settings</string>
@@ -24,4 +24,7 @@
         <item>Docks available</item>
         <item>Station Name</item>
     </string-array>
+    <string name="title_activity_station_detail">Station Detail</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

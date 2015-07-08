@@ -5,7 +5,9 @@
         android:layout_height="fill_parent"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:focusableInTouchMode="true">
+        android:focusable="false"
+        android:descendantFocusability="blocksDescendants"
+    android:clickable="false">
 
        <TextView
         android:id="@+id/stationNameView"

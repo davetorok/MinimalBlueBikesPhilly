@@ -4,7 +4,8 @@ package name.jugglerdave.minimalindego.model;
  * Created by dtorok on 5/15/2015.
  */
 public class StationStatistics {
-    int total_docks;
+    int total_docks_available;//available docks
+    int total_inactive_docks;// inactive docks / bikes in active stations
     int total_bikes;
     int total_stations_active;
     int total_stations;
@@ -15,7 +16,11 @@ public class StationStatistics {
     int total_stations_nearly_full;
     int total_stations_nearly_empty;
     public StationStatistics() {
-        total_bikes = total_docks = total_stations = total_stations_inactive = 0;
+        resetStatisticsToZero();
+    }
+
+    private void resetStatisticsToZero(){
+        total_bikes = total_docks_available = total_stations = total_stations_inactive = total_inactive_docks = 0;
         total_stations_comingsoon = total_stations_full = total_stations_empty = total_stations_nearly_empty = total_stations_nearly_full = 0;
     }
 
@@ -27,8 +32,7 @@ public class StationStatistics {
 
     public void refreshStatistics(StationList stats)
     {
-        total_bikes = total_docks = total_stations = total_stations_inactive = 0;
-        total_stations_comingsoon = total_stations_full = total_stations_empty = total_stations_nearly_empty = total_stations_nearly_full = 0;
+        resetStatisticsToZero();
         if (stats == null) return;
         if (stats.stations == null) return;
         for (Station stat : stats.stations)
@@ -38,8 +42,9 @@ public class StationStatistics {
             if (stat.getKioskPublicStatus().equalsIgnoreCase("Active"))
             {
             total_stations_active++;
-            total_docks += stat.getDocksAvailable();
+            total_docks_available += stat.getDocksAvailable();
             total_bikes += stat.getBikesAvailable();
+            total_inactive_docks += stat.getTotalDocks() - (stat.getDocksAvailable() + stat.getBikesAvailable());
 
                 if (stat.getBikesAvailable() == 0) {
                     total_stations_empty++;
@@ -63,12 +68,12 @@ public class StationStatistics {
         }
     }
 
-    public int getTotal_docks() {
-        return total_docks;
+    public int getTotal_docks_available() {
+        return total_docks_available;
     }
 
-    public void setTotal_docks(int total_docks) {
-        this.total_docks = total_docks;
+    public void setTotal_docks_available(int total_docks) {
+        this.total_docks_available = total_docks;
     }
 
     public int getTotal_bikes() {
@@ -141,5 +146,13 @@ public class StationStatistics {
 
     public void setTotal_stations_nearly_empty(int total_stations_nearly_empty) {
         this.total_stations_nearly_empty = total_stations_nearly_empty;
+    }
+
+    public int getTotal_inactive_docks() {
+        return total_inactive_docks;
+    }
+
+    public void setTotal_inactive_docks(int total_inactive_docks) {
+        this.total_inactive_docks = total_inactive_docks;
     }
 }

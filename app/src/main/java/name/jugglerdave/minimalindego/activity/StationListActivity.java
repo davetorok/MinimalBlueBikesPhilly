@@ -1,8 +1,9 @@
 package name.jugglerdave.minimalindego.activity;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -29,18 +30,30 @@ import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 
 
 public class StationListActivity extends ActionBarActivity {
-    public static final String LOG_TAG="IndegoAPIReader";
-
+    public static final String LOG_TAG="StationListActivity";
+    public static final String EXTRA_MESSAGE_STATION_NAME= "name.jugglerdave.minimalindego.STATION_NAME";
+    public static final String EXTRA_MESSAGE_STATION_OBJECT= "name.jugglerdave.minimalindego.STATION_OBJECT";
     private StationListArrayAdapter stationlistadapter;
     private StationList stats;
     private Station[] stationArray;
     private StationStatistics stationStats;
+    SharedPreferences preferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        //get preferences for home station
+        if (preferences.contains("home_station_kiosk_id")) {
+            Constants.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", Constants.default_home_kiosk_id));
+            Constants.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) Constants.default_position_geo_long));
+            Constants.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat",(float) Constants.default_position_geo_lat));
+        }
+
         try {
             stats = null;
             stats = IndegoAPIReader.readStationList();
@@ -54,6 +67,14 @@ public class StationListActivity extends ActionBarActivity {
             sortByCurrentSortType();
             lv.setAdapter(stationlistadapter);
             registerForContextMenu(lv);
+            //set the item listener
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                        long arg3) {
+                    onStationSelect(v);
+                }
+            });
 
         } catch (Exception ex) {
             Log.e(LOG_TAG, "exception in onCreate" + ex.getClass().getName());
@@ -136,10 +157,28 @@ public class StationListActivity extends ActionBarActivity {
                 Constants.setCurrent_position_geo_long(stationArray[(int)info.id].getGeo_long());
                 sortByCurrentSortType();
                 return true;
+            case R.id.set_home_station:
+                Log.i(LOG_TAG, "Selected item = " + item.toString());
+                Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
+                Constants.setHome_station_kiosk_id(stationArray[(int) info.id].getKioskId());
+                Constants.setHome_station_geo_long(stationArray[(int)info.id].getGeo_long());
+                Constants.setHome_station_geo_lat(stationArray[(int) info.id].getGeo_lat());
+                SharedPreferences.Editor spe = preferences.edit();
+                spe.putString("home_station_kiosk_id", Constants.getHome_station_kiosk_id());
+                spe.putFloat("home_station_geo_long", (float) Constants.getHome_station_geo_long());
+                spe.putFloat("home_station_geo_lat", (float) Constants.getHome_station_geo_lat());
+                spe.commit();
 
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public void onStationSelect(View v)
+    {
+    int viewid = v.getId();
+        Log.i(LOG_TAG, "Selected item = " + viewid);
+
     }
     public void refreshStations()
     {
