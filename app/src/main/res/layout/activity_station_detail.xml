@@ -28,9 +28,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Address"
         android:id="@+id/stationaddresstextview"
-        android:layout_below="@+id/stationnametextview"
+        android:layout_below="@+id/addresslabeltextview"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:layout_alignParentEnd="false" />
 
     <TextView
@@ -39,11 +39,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Station Status"
         android:id="@+id/stationstatustextview"
-        android:layout_below="@+id/stationaddresstextview"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/stationstatuslabel" />
 
 
     <CheckBox
@@ -115,4 +115,46 @@
         android:layout_alignParentStart="true"
         android:gravity="right" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Status"
+        android:id="@+id/stationstatuslabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/stationaddresstextview"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Address"
+        android:id="@+id/addresslabeltextview"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/stationnametextview"
+        android:layout_marginTop="10dp" />
+    <name.jugglerdave.minimalindego.view.BikeIconImageView
+        android:id="@+id/bikeIconDetailView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+
+        android:paddingRight="3dp"
+        android:paddingLeft="3dp"
+        android:maxHeight="50dp"
+        android:maxWidth="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:scaleType="centerInside"
+        android:background="#ffff8527"
+        android:src="@drawable/bicycleicon"
+        android:layout_alignTop="@+id/bikesavailablenumtextview"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

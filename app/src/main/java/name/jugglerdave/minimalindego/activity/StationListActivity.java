@@ -26,6 +26,7 @@ import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.model.StationList;
 import name.jugglerdave.minimalindego.model.StationStatistics;
 import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoAPIReader;
+import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoReaderAsyncTask;
 import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 
 
@@ -55,15 +56,21 @@ public class StationListActivity extends ActionBarActivity {
         }
 
         try {
-            stats = null;
-            stats = IndegoAPIReader.readStationList();
-            stationStats = new StationStatistics(stats);
-            TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
-            String ds = df.format(stats.refreshDateTime);
-            tv.setText(  ds + ", " + stats.stations.size() + " stations");
+            TextView tv = (TextView)findViewById(R.id.stationListText);
+            stats = new StationList();
+            //TODO - do async tasks here...
+            //TODO stats = IndegoAPIReader.readStationList();
+            //TODO stationStats = new StationStatistics(stats);
+           //TODO String ds = df.format(stats.refreshDateTime);
+           // tv.setText(  ds + ", " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
-            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, stationArray);
+
+
+            //new ArrayList<Station>(Arrays.asList(array))
+
+
+            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, (ArrayList<Station>)stats.stations);
             sortByCurrentSortType();
             lv.setAdapter(stationlistadapter);
             registerForContextMenu(lv);
@@ -75,6 +82,9 @@ public class StationListActivity extends ActionBarActivity {
                     onStationSelect(v);
                 }
             });
+
+            //Start the async activity
+            ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
 
         } catch (Exception ex) {
             Log.e(LOG_TAG, "exception in onCreate" + ex.getClass().getName());
@@ -180,7 +190,15 @@ public class StationListActivity extends ActionBarActivity {
         Log.i(LOG_TAG, "Selected item = " + viewid);
 
     }
+
     public void refreshStations()
+    {
+        //Start the async activity
+        ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
+    }
+
+    //DEAD CODE to remove
+    public void refreshStationsOld()
     {
         ListView lv = (ListView)findViewById(R.id.stationListView);
         try {
@@ -200,6 +218,29 @@ public class StationListActivity extends ActionBarActivity {
 
         } catch (Exception ex) {
             Log.e(LOG_TAG, "exception in refreshStations()" + ex.getClass().getName());
+        }
+
+    }
+
+    public void refreshStationsFromAsyncTask(StationList stats)
+    {
+        ListView lv = (ListView)findViewById(R.id.stationListView);
+        try {
+            stationStats = new StationStatistics(stats);
+            TextView tv = (TextView)findViewById(R.id.stationListText);
+            SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
+            String ds = df.format(stats.refreshDateTime);
+            tv.setText( ds + ", " + stats.stations.size() + " stations");
+            stationArray = stats.stations.toArray(stationArray);
+
+            //re-sort -- this also does the refilladapter and notify data set
+            sortByCurrentSortType();
+
+            stationlistadapter.notifyDataSetChanged();
+
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, "exception in refreshStationsFromAsyncTask()" + ex.getClass().getName());
         }
 
     }
@@ -234,15 +275,16 @@ public class StationListActivity extends ActionBarActivity {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new NameSorter());
-        stationlistadapter.notifyDataSetChanged();
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
 
     }
     public void sortByBikes() {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new BikesSorter());
-        stationlistadapter.notifyDataSetChanged();
-        //ArrayList<Station> station_arraylist = new ArrayList<Station>(Array<Station>.);    }
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
     }
 
     public void sortByDocks() {
@@ -250,22 +292,32 @@ public class StationListActivity extends ActionBarActivity {
 
         Arrays.sort(stationArray, new DocksSorter());
 
-        stationlistadapter.notifyDataSetChanged();
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
 
     }
     public void sortByDistance() {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new DistanceSorter());
-        stationlistadapter.notifyDataSetChanged();
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
 
     }
     public void sortByDirection() {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new DirectionSorter());
-        stationlistadapter.notifyDataSetChanged();
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
 
+    }
+
+    public void refillAdapterFromStationArrayAndNotifyDataSetChanged()
+    {
+        stationlistadapter.clear();
+        for(Station s : stationArray)
+        { stationlistadapter.add( s);}
+        stationlistadapter.notifyDataSetChanged();
     }
 
     class NameSorter implements Comparator<Station> {
@@ -304,6 +356,8 @@ public class StationListActivity extends ActionBarActivity {
 
         }
     }
+
+
 
 }
 

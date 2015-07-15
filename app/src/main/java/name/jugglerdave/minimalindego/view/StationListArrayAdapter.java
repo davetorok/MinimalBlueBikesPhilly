@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import name.jugglerdave.minimalindego.activity.StationDetailActivity;
 import name.jugglerdave.minimalindego.activity.StationListActivity;
 import name.jugglerdave.minimalindego.model.Constants;
@@ -27,7 +30,7 @@ import name.jugglerdave.minimalindego.R;
  */
 public class StationListArrayAdapter extends ArrayAdapter<Station> {
     public static final String LOG_TAG="StationListArrayAdapter";
-    private Station[] stationArray;
+    private ArrayList<Station> stationArrayList;
 
     private int nav_arrow_orig_width = -1; // will be set on first use
     private int nav_arrow_orig_height = -1; // will be set on first use
@@ -42,9 +45,9 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         TextView docksCountTextView;
     }
 
-    public StationListArrayAdapter(Context context, int textViewResourceId, Station[] thearray) {
+    public StationListArrayAdapter(Context context, int textViewResourceId, ArrayList<Station> thearray) {
         super(context, textViewResourceId, thearray);
-        stationArray = thearray;
+        stationArrayList = thearray;
     }
 
     @Override
