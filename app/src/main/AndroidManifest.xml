@@ -28,6 +28,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="name.jugglerdave.minimalindego.activity.StationListActivity" />
         </activity>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activity.StationListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="name.jugglerdave.minimalindego.activity.StationListActivity" />
+        </activity>
     </application>
 
 </manifest>

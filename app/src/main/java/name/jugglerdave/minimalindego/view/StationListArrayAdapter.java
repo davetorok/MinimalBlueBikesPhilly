@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.content.Context;
@@ -121,6 +122,16 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
             viewHolder.bikeIconImageView.setBackgroundColor(Color.argb(255,(int)(percentfull*2),(int)(percentfull*164),(int)(percentfull*255)));
             viewHolder.bikesCountTextView.setTextColor(viewHolder.bikesCountTextView.getResources().getColor(R.color.bikes_available_text_color));
        }
+
+        //BOLD the home station
+        if (this_station.getKioskId().equals(Constants.getHome_station_kiosk_id()))
+        {
+            viewHolder.stationNameTextView.setTypeface(null, Typeface.BOLD);
+        }
+        else
+        {
+            viewHolder.stationNameTextView.setTypeface(null, Typeface.NORMAL);
+        }
 
         //set docks available warning color
         if (this_station.getDocksAvailable() == 0)

@@ -1,5 +1,6 @@
 package name.jugglerdave.minimalindego.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -43,32 +44,53 @@ public class StationListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
+        //get preferences for startup sort type
+        if (preferences.contains("pref_defaultSortType"))
+        {
+            Constants.setCurrent_station_list_sort(preferences.getString("pref_defaultSortType",Constants.default_sort));
+            Log.e(LOG_TAG, "set current sort to " + Constants.getCurrent_station_list_sort());
+
+        }
+
         //get preferences for home station
         if (preferences.contains("home_station_kiosk_id")) {
             Constants.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", Constants.default_home_kiosk_id));
             Constants.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) Constants.default_position_geo_long));
-            Constants.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat",(float) Constants.default_position_geo_lat));
+            Constants.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat", (float) Constants.default_position_geo_lat));
         }
+        //get preferences for current position kiosk
+        if (preferences.contains("current_position_kiosk_id")) {
+            Constants.setCurrent_position_kiosk_id(preferences.getString("current_position_kiosk_id", Constants.default_position_kiosk_id));
+            Constants.setCurrent_position_geo_long(preferences.getFloat("current_position_geo_long", (float) Constants.default_position_geo_long));
+            Constants.setCurrent_position_geo_lat(preferences.getFloat("current_position_geo_lat",(float) Constants.default_position_geo_lat));
+        }
+        //get preference to force 'home'
+        if (preferences.getString("pref_startupStationType", "HOME").equalsIgnoreCase("HOME"))
+        {
+            //copy home to current
+            Constants.setCurrent_position_kiosk_id(Constants.getHome_station_kiosk_id());
+            Constants.setCurrent_position_geo_long(Constants.getHome_station_geo_long());
+            Constants.setCurrent_position_geo_lat(Constants.getHome_station_geo_lat());
+        }
+
+
 
         try {
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             TextView tv = (TextView)findViewById(R.id.stationListText);
             stats = new StationList();
-            //TODO - do async tasks here...
-            //TODO stats = IndegoAPIReader.readStationList();
+
             //TODO stationStats = new StationStatistics(stats);
-           //TODO String ds = df.format(stats.refreshDateTime);
-           // tv.setText(  ds + ", " + stats.stations.size() + " stations");
+
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
-
-
-            //new ArrayList<Station>(Arrays.asList(array))
-
 
             stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, (ArrayList<Station>)stats.stations);
             sortByCurrentSortType();
@@ -115,6 +137,8 @@ public class StationListActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         else if(id == R.id.action_refresh)
@@ -160,11 +184,16 @@ public class StationListActivity extends ActionBarActivity {
         AdapterView.AdapterContextMenuInfo info =  (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.set_current_station:
-                //todo - set the right preference etc. for home station
                 Log.i(LOG_TAG,"Selected item = " + item.toString());
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
+                Constants.setCurrent_position_kiosk_id(stationArray[(int) info.id].getKioskId());
                 Constants.setCurrent_position_geo_lat(stationArray[(int) info.id].getGeo_lat());
-                Constants.setCurrent_position_geo_long(stationArray[(int)info.id].getGeo_long());
+                Constants.setCurrent_position_geo_long(stationArray[(int) info.id].getGeo_long());
+                SharedPreferences.Editor spe = preferences.edit();
+                spe.putString("current_position_kiosk_id", Constants.getCurrent_position_kiosk_id());
+                spe.putFloat("current_position_geo_long", (float) Constants.getCurrent_position_geo_long());
+                spe.putFloat("current_position_geo_lat", (float) Constants.getCurrent_position_geo_lat());
+                spe.commit();
                 sortByCurrentSortType();
                 return true;
             case R.id.set_home_station:
@@ -173,11 +202,12 @@ public class StationListActivity extends ActionBarActivity {
                 Constants.setHome_station_kiosk_id(stationArray[(int) info.id].getKioskId());
                 Constants.setHome_station_geo_long(stationArray[(int)info.id].getGeo_long());
                 Constants.setHome_station_geo_lat(stationArray[(int) info.id].getGeo_lat());
-                SharedPreferences.Editor spe = preferences.edit();
-                spe.putString("home_station_kiosk_id", Constants.getHome_station_kiosk_id());
-                spe.putFloat("home_station_geo_long", (float) Constants.getHome_station_geo_long());
-                spe.putFloat("home_station_geo_lat", (float) Constants.getHome_station_geo_lat());
-                spe.commit();
+                SharedPreferences.Editor spe2 = preferences.edit();
+                spe2.putString("home_station_kiosk_id", Constants.getHome_station_kiosk_id());
+                spe2.putFloat("home_station_geo_long", (float) Constants.getHome_station_geo_long());
+                spe2.putFloat("home_station_geo_lat", (float) Constants.getHome_station_geo_lat());
+                spe2.commit();
+                stationlistadapter.notifyDataSetChanged(); //to redisplay with bold home
 
             default:
                 return super.onContextItemSelected(item);

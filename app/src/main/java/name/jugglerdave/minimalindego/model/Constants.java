@@ -7,8 +7,9 @@ import android.util.Log;
  * Created by dtorok on 5/23/2015.
  */
 public class Constants {
-    // default is 23rd and south station
+    // default is 19th & lombard station
     public final static String default_home_kiosk_id = "3066";
+    public final static String default_position_kiosk_id = "3066";
     public final static double default_position_geo_long = -75.17348;
     public final static double default_position_geo_lat = 39.94561;
     public static final String LOG_TAG="Constants";
@@ -26,6 +27,7 @@ public class Constants {
 
     public static String current_station_list_sort = default_sort;
 
+    public static String current_position_kiosk_id = default_position_kiosk_id;
     public static double current_position_geo_long = default_position_geo_long;
     public static double current_position_geo_lat = default_position_geo_lat;
 
@@ -121,6 +123,14 @@ public class Constants {
 
     public static void setHome_station_geo_lat(double home_station_geo_lat) {
         Constants.home_station_geo_lat = home_station_geo_lat;
+    }
+
+    public static String getCurrent_position_kiosk_id() {
+        return current_position_kiosk_id;
+    }
+
+    public static void setCurrent_position_kiosk_id(String current_position_kiosk_id) {
+        Constants.current_position_kiosk_id = current_position_kiosk_id;
     }
 }
 

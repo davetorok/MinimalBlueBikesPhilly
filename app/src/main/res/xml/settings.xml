@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+       android:key="pref_defaultSortType"
+        android:title="@string/preference_sort_type_title"
+        android:summary="@string/preference_sort_type_summary"
+        android:dialogTitle="@string/preference_sort_type_title"
+        android:entries="@array/preference_sort_types_strings"
+        android:entryValues="@array/preference_sort_types_values"
+        android:defaultValue="@string/preference_sort_type_default" />
+    <ListPreference
+        android:key="pref_startupStationType"
+        android:title="@string/preference_home_station_title"
+        android:summary="@string/preference_home_station_summary"
+        android:dialogTitle="@string/preference_home_station_title"
+        android:entries="@array/preference_home_station_strings"
+        android:entryValues="@array/preference_home_station_values"
+        android:defaultValue="@string/preference_home_station_default" />
+</PreferenceScreen>
