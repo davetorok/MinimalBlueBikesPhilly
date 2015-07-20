@@ -20,7 +20,7 @@
         android:layout_alignParentEnd="false"
         android:layout_centerVertical="true"
         android:gravity="fill_horizontal|center_vertical"
-        android:layout_toLeftOf="@+id/favorite" />
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -137,6 +137,27 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/stationnametextview"
         android:layout_marginTop="10dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Location Hint"
+        android:id="@+id/hintlabeltextview"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/docksavailablenumtextview"
+        android:layout_marginTop="20dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Hint"
+        android:id="@+id/hinttextview"
+        android:layout_below="@+id/hintlabeltextview"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentEnd="false" />
     <name.jugglerdave.minimalindego.view.BikeIconImageView
         android:id="@+id/bikeIconDetailView"
         android:layout_width="wrap_content"

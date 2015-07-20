@@ -2,6 +2,14 @@
     <string name="app_name">Minimal Blue Bikes Philly</string>
 
     <string name="string_lastRefreshInitial">(No Data Read)</string>
+    <string name="string_nohint">(No Hint Available)</string>
+    <string name="string_bikes_available">Bikes Available</string>
+    <string name="string_bike_available">Bike Available</string>
+    <string name="string_docks_available">Docks Available</string>
+    <string name="string_dock_available">Dock Available</string>
+    <string name="string_unable_load">Unable to Load Stations</string>
+    <string name="string_loading">Loading Station List...</string>
+
 
 
     <string name="action_settings">Settings</string>

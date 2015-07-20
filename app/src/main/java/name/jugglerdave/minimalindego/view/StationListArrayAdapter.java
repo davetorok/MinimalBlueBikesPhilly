@@ -170,6 +170,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
             matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) Constants.phila_map_tilt_degrees), 15, 10);
 
         } else {
+            // current row is the current station location
             viewHolder.bearingImageView.setImageResource(R.drawable.currentlocationicon);
             matrix.preScale((float) 30.0 / current_location_orig_width, (float) 30.0 / current_location_orig_height);
 

@@ -10,7 +10,7 @@ import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 /**
  * Created by dtorok on 7/14/2015.
  */
-public class IndegoReaderAsyncTask extends AsyncTask<Void,Void,StationList> {
+public class IndegoReaderAsyncTask extends AsyncTask<Void,Integer,StationList> {
 
     public static final String LOG_TAG = "IntegoReaderAsyncTask";
 
@@ -28,9 +28,12 @@ public class IndegoReaderAsyncTask extends AsyncTask<Void,Void,StationList> {
         StationList stats = null;
 
         try {
+            publishProgress(10);
             stats = IndegoAPIReader.readStationList();
+            publishProgress(100);
         } catch (Exception ex) {
             Log.e(LOG_TAG, "Can't read Indego from asynctask " + ex.getClass().getName());
+            publishProgress(0);
         }
     return stats;
     }
@@ -39,5 +42,11 @@ public class IndegoReaderAsyncTask extends AsyncTask<Void,Void,StationList> {
     protected void onPostExecute(StationList stationList) {
         super.onPostExecute(stationList);
         activity_context.refreshStationsFromAsyncTask(stationList);
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        activity_context.setStationLoadProgress(values[0]);
     }
 }

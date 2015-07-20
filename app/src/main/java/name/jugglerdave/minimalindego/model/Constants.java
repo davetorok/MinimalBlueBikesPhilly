@@ -3,11 +3,14 @@ package name.jugglerdave.minimalindego.model;
 import android.location.Location;
 import android.util.Log;
 
+import java.util.HashSet;
+
 /**
  * Created by dtorok on 5/23/2015.
  */
 public class Constants {
     // default is 19th & lombard station
+
     public final static String default_home_kiosk_id = "3066";
     public final static String default_position_kiosk_id = "3066";
     public final static double default_position_geo_long = -75.17348;
@@ -21,6 +24,7 @@ public class Constants {
     public static double cos_t = Math.cos(phila_map_tilt);
     public static double sin_t = Math.sin(phila_map_tilt);
 
+    //following are App state - should move to an Application class
     public static String home_station_kiosk_id = default_home_kiosk_id;
     public static double home_station_geo_long = default_position_geo_long;
     public static double home_station_geo_lat = default_position_geo_lat;
@@ -30,6 +34,10 @@ public class Constants {
     public static String current_position_kiosk_id = default_position_kiosk_id;
     public static double current_position_geo_long = default_position_geo_long;
     public static double current_position_geo_lat = default_position_geo_lat;
+
+    //Favorite stations (kiosk id) -- move to App constants
+    public static HashSet<String> favoriteStationsSet = new HashSet<String>();
+
 
     public static double getCurrent_position_geo_lat() {
         return current_position_geo_lat;

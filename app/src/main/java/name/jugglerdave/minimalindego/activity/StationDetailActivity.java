@@ -1,7 +1,9 @@
 package name.jugglerdave.minimalindego.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +14,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import name.jugglerdave.minimalindego.R;
+import name.jugglerdave.minimalindego.model.Constants;
 import name.jugglerdave.minimalindego.model.Station;
 
 public class StationDetailActivity extends ActionBarActivity {
@@ -57,7 +64,7 @@ public class StationDetailActivity extends ActionBarActivity {
 
         }
         tv = (TextView) findViewById(R.id.docskavailabletextview);
-        tv.setText("Dock" + (station.getDocksAvailable() == 1 ? "" : "s") + " Available");
+        tv.setText(station.getDocksAvailable() == 1 ? getString(R.string.string_dock_available) : getString(R.string.string_docks_available));
 
 
         //Bikes Available
@@ -86,6 +93,8 @@ public class StationDetailActivity extends ActionBarActivity {
 
         tv = (TextView) findViewById(R.id.bikesavailabletextview);
         tv.setText("Bike" + (station.getBikesAvailable() == 1 ? "" : "s") + " Available");
+        tv.setText(station.getBikesAvailable() == 1 ? getString(R.string.string_bike_available) : getString(R.string.string_bikes_available));
+
 
         //status
         tv = (TextView)findViewById(R.id.stationstatustextview);
@@ -100,9 +109,16 @@ public class StationDetailActivity extends ActionBarActivity {
             tv.setTextColor(Color.GRAY);
         }
 
+        //hint string
+        tv = (TextView)findViewById(R.id.hinttextview);
+        tv.setText( station.getStation_hint() == null ? getString(R.string.string_nohint) : station.getStation_hint()   );
 
-
-
+        CheckBox cb = (CheckBox)findViewById(R.id.favorite);
+        //favorites
+        if (Constants.favoriteStationsSet != null )
+        {
+            cb.setChecked(Constants.favoriteStationsSet.contains(station.getKioskId()));
+        }
 
     }
     public void onClickFavoriteStar(View v)
@@ -112,15 +128,28 @@ public class StationDetailActivity extends ActionBarActivity {
         {
             //set station as favorite
             Log.i(LOG_TAG, "Set Favorite = " + station.getKioskId() + " " + station.getStation_name());
+            //add to favorite
+            Constants.favoriteStationsSet.add(station.getKioskId());
+
+            //TEST - print out current JSONObject string
+            JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+            Log.d(LOG_TAG, "JSON string = " + myary.toString());
+
+
 
         }
         else
         {
             //unset station as favorite
             Log.i(LOG_TAG, "Clear Favorite = " + station.getKioskId() + " " + station.getStation_name());
-
+            Constants.favoriteStationsSet.remove(station.getKioskId());
+//TEST - print out current JSONObject string
+            JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+            Log.d(LOG_TAG, "JSON string = " + myary.toString());
         }
 
+        //commit checkbox change
+        saveFavoritesToSettings();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,5 +175,18 @@ public class StationDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //preferences to favorites
+    public void saveFavoritesToSettings()  {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor spe = preferences.edit();
+        JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+        spe.putString("favorite_stations_json_string", myary.toString());
+        spe.commit();
+
+
     }
 }

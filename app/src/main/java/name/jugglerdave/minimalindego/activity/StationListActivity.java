@@ -16,6 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +28,7 @@ import java.util.Comparator;
 import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.model.Constants;
 import name.jugglerdave.minimalindego.model.Station;
+import name.jugglerdave.minimalindego.model.StationHints;
 import name.jugglerdave.minimalindego.model.StationList;
 import name.jugglerdave.minimalindego.model.StationStatistics;
 import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoAPIReader;
@@ -36,9 +41,9 @@ public class StationListActivity extends ActionBarActivity {
     public static final String EXTRA_MESSAGE_STATION_NAME= "name.jugglerdave.minimalindego.STATION_NAME";
     public static final String EXTRA_MESSAGE_STATION_OBJECT= "name.jugglerdave.minimalindego.STATION_OBJECT";
     private StationListArrayAdapter stationlistadapter;
-    private StationList stats;
     private Station[] stationArray;
     private StationStatistics stationStats;
+    private StationHints stationHints = null;
     SharedPreferences preferences = null;
 
     @Override
@@ -81,18 +86,20 @@ public class StationListActivity extends ActionBarActivity {
             Constants.setCurrent_position_geo_lat(Constants.getHome_station_geo_lat());
         }
 
-
+        //read favorites
+        readFavoritesFromSettings();
 
         try {
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             TextView tv = (TextView)findViewById(R.id.stationListText);
-            stats = new StationList();
 
-            //TODO stationStats = new StationStatistics(stats);
+
+            StationList stats = new StationList();
+            stationStats = new StationStatistics(stats);
 
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
 
-            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, (ArrayList<Station>)stats.stations);
+            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, (ArrayList<Station>)stats.stations); //usestationarray????
             sortByCurrentSortType();
             lv.setAdapter(stationlistadapter);
             registerForContextMenu(lv);
@@ -105,6 +112,9 @@ public class StationListActivity extends ActionBarActivity {
                 }
             });
 
+            //Read the station hints
+            stationHints = new StationHints();
+            stationHints.readHintsJson(getApplicationContext());
             //Start the async activity
             ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
 
@@ -227,33 +237,17 @@ public class StationListActivity extends ActionBarActivity {
         ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
     }
 
-    //DEAD CODE to remove
-    public void refreshStationsOld()
-    {
-        ListView lv = (ListView)findViewById(R.id.stationListView);
-        try {
-            stats = null;
-            stats = IndegoAPIReader.readStationList();
-            stationStats = new StationStatistics(stats);
-            TextView tv = (TextView)findViewById(R.id.stationListText);
-            SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
-            String ds = df.format(stats.refreshDateTime);
-            tv.setText( ds + ", " + stats.stations.size() + " stations");
-            stationArray = stats.stations.toArray(stationArray);
 
-            //re-sort
-            sortByCurrentSortType();
-            stationlistadapter.notifyDataSetChanged();
-
-
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, "exception in refreshStations()" + ex.getClass().getName());
-        }
-
-    }
 
     public void refreshStationsFromAsyncTask(StationList stats)
     {
+        //inflate 'hints' in the stations
+        for (Station stat : stats.stations)
+        {
+            String hintString = stationHints.getHintString(stat.getKioskId());
+            stat.setStation_hint(hintString);
+        }
+
         ListView lv = (ListView)findViewById(R.id.stationListView);
         try {
             stationStats = new StationStatistics(stats);
@@ -262,6 +256,8 @@ public class StationListActivity extends ActionBarActivity {
             String ds = df.format(stats.refreshDateTime);
             tv.setText( ds + ", " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(stationArray);
+
+
 
             //re-sort -- this also does the refilladapter and notify data set
             sortByCurrentSortType();
@@ -271,6 +267,40 @@ public class StationListActivity extends ActionBarActivity {
 
         } catch (Exception ex) {
             Log.e(LOG_TAG, "exception in refreshStationsFromAsyncTask()" + ex.getClass().getName());
+        }
+
+    }
+
+    public void setStationLoadProgress(Integer val) {
+        TextView tv = (TextView)findViewById(R.id.stationListText);
+        if (val == 0) {
+            tv.setText(getText(R.string.string_unable_load));
+        }
+        else if (val < 100) {
+            tv.setText(getText(R.string.string_loading));
+        }
+    }
+
+    //preferences to favorites
+    public void readFavoritesFromSettings()  {
+        Constants.favoriteStationsSet.clear();
+        if (preferences.contains("favorite_stations_json_string")) {
+
+            String prefstring = preferences.getString("favorite_stations_json_string",null);
+            if (prefstring != null)
+            {
+                try {
+                    JSONArray myary = new JSONArray(prefstring);
+                    for (int i = 0; i < myary.length(); i++)
+                    {
+                        Constants.favoriteStationsSet.add(myary.getString(i));
+                    }
+
+                } catch (JSONException ex) {
+                    //can't parse favorites string
+                    //TODO log it
+                }
+            }
         }
 
     }
