@@ -45,6 +45,7 @@ public class StationListActivity extends ActionBarActivity {
     private StationStatistics stationStats;
     private StationHints stationHints = null;
     SharedPreferences preferences = null;
+    private boolean filter_favorites_state = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class StationListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 
 
         //get preferences for startup sort type
@@ -131,6 +133,24 @@ public class StationListActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_station_list, menu);
         return true;
     }
+
+    // change text of Favorites item... maybe icon too.
+    // @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean displayit = super.onPrepareOptionsMenu(menu);
+        MenuItem it = menu.findItem(R.id.action_filter_favorites);
+        if (filter_favorites_state) {
+            it.setTitle(R.string.action_filter_all);
+            it.setIcon(R.drawable.ic_stars_white_24dp);
+        } else {
+            it.setTitle(R.string.action_filter_favorites);
+        }
+        return displayit;
+
+
+
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -186,19 +206,36 @@ public class StationListActivity extends ActionBarActivity {
             sortByDirection();
             return true;
         }
+        else if (id == R.id.action_filter_favorites)
+        {
+           if (!filter_favorites_state)
+            {
+                //filterable
+                stationlistadapter.getFilter().filter("FAVORITES");
+                filter_favorites_state = true;
+            }
+            else
+            {
+                //show all stations
+                stationlistadapter.getFilter().filter("ALL");
+                filter_favorites_state = false;
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info =  (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Station selectedstation  = stationlistadapter.getFilteredItemAtPosition((int)info.id);
         switch (item.getItemId()) {
             case R.id.set_current_station:
                 Log.i(LOG_TAG,"Selected item = " + item.toString());
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
-                Constants.setCurrent_position_kiosk_id(stationArray[(int) info.id].getKioskId());
-                Constants.setCurrent_position_geo_lat(stationArray[(int) info.id].getGeo_lat());
-                Constants.setCurrent_position_geo_long(stationArray[(int) info.id].getGeo_long());
+
+                Constants.setCurrent_position_kiosk_id(selectedstation.getKioskId());
+                Constants.setCurrent_position_geo_lat(selectedstation.getGeo_lat());
+                Constants.setCurrent_position_geo_long(selectedstation.getGeo_long());
                 SharedPreferences.Editor spe = preferences.edit();
                 spe.putString("current_position_kiosk_id", Constants.getCurrent_position_kiosk_id());
                 spe.putFloat("current_position_geo_long", (float) Constants.getCurrent_position_geo_long());
@@ -209,9 +246,9 @@ public class StationListActivity extends ActionBarActivity {
             case R.id.set_home_station:
                 Log.i(LOG_TAG, "Selected item = " + item.toString());
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
-                Constants.setHome_station_kiosk_id(stationArray[(int) info.id].getKioskId());
-                Constants.setHome_station_geo_long(stationArray[(int)info.id].getGeo_long());
-                Constants.setHome_station_geo_lat(stationArray[(int) info.id].getGeo_lat());
+                Constants.setHome_station_kiosk_id(selectedstation.getKioskId());
+                Constants.setHome_station_geo_long(selectedstation.getGeo_long());
+                Constants.setHome_station_geo_lat(selectedstation.getGeo_lat());
                 SharedPreferences.Editor spe2 = preferences.edit();
                 spe2.putString("home_station_kiosk_id", Constants.getHome_station_kiosk_id());
                 spe2.putFloat("home_station_geo_long", (float) Constants.getHome_station_geo_long());
@@ -262,7 +299,8 @@ public class StationListActivity extends ActionBarActivity {
             //re-sort -- this also does the refilladapter and notify data set
             sortByCurrentSortType();
 
-            stationlistadapter.notifyDataSetChanged();
+            //done in the filter
+            //stationlistadapter.notifyDataSetChanged();
 
 
         } catch (Exception ex) {
@@ -377,7 +415,15 @@ public class StationListActivity extends ActionBarActivity {
         stationlistadapter.clear();
         for(Station s : stationArray)
         { stationlistadapter.add( s);}
-        stationlistadapter.notifyDataSetChanged();
+
+        //terrible hack
+        stationlistadapter.updateUnfilteredStationArrayList();
+
+        //and filter favorites if set
+        stationlistadapter.getFilter().filter(filter_favorites_state ? "FAVORITES" : "ALL");
+
+        //not needed since the filter does it
+        //stationlistadapter.notifyDataSetChanged();
     }
 
     class NameSorter implements Comparator<Station> {

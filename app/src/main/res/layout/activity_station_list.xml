@@ -14,6 +14,7 @@
         android:id="@+id/stationListView"
         android:layout_above="@+id/stationListText"
         android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
          />
     <TextView android:text="@string/string_lastRefreshInitial"
         android:layout_width="wrap_content"

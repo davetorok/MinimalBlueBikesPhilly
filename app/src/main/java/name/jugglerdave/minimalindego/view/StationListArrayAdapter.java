@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import name.jugglerdave.minimalindego.activity.StationDetailActivity;
 import name.jugglerdave.minimalindego.activity.StationListActivity;
@@ -29,9 +32,11 @@ import name.jugglerdave.minimalindego.R;
 /**
  * Created by dtorok on 5/29/2015.
  */
-public class StationListArrayAdapter extends ArrayAdapter<Station> {
+public class StationListArrayAdapter extends ArrayAdapter<Station>
+    implements Filterable{
     public static final String LOG_TAG="StationListArrayAdapter";
     private ArrayList<Station> stationArrayList;
+    private ArrayList<Station> unfilteredStationArrayList;
 
     private int nav_arrow_orig_width = -1; // will be set on first use
     private int nav_arrow_orig_height = -1; // will be set on first use
@@ -196,6 +201,64 @@ public class StationListArrayAdapter extends ArrayAdapter<Station> {
         return row;
     }
 
+    //used when selecting a context item
+    public Station getFilteredItemAtPosition(int position)
+    {
+        return stationArrayList.get(position);
+    }
+
+    //terrible hack, when data is refreshed externally but need to reset "originals" before filtering again.
+    public void updateUnfilteredStationArrayList()
+    {
+        unfilteredStationArrayList = new ArrayList<Station>(stationArrayList);
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+
+                stationArrayList.clear();
+                    for(Station s : (ArrayList<Station>) results.values)
+                    { stationArrayList.add( s);}
+
+
+                notifyDataSetChanged();  // notifies the data with new filtered values
+            }
+
+            @Override
+            protected Filter.FilterResults performFiltering(CharSequence constraint) {
+                Filter.FilterResults results = new Filter.FilterResults();        // Holds the results of a filtering operation in values
+                List<Station> filteredArrayList = new ArrayList<Station>();
+
+                if (unfilteredStationArrayList == null) {
+                    unfilteredStationArrayList = new ArrayList<Station>(stationArrayList); // saves the original data for unfiltering
+                }
+
+                if (constraint != null && constraint.toString().equals("FAVORITES"))
+                {
+                    for (Station s : unfilteredStationArrayList)
+                    {
+                        //is it a favorite, home station, or current station?
+                        if (Constants.favoriteStationsSet.contains(s.getKioskId()) ||
+                                Constants.getCurrent_position_kiosk_id().equals(s.getKioskId()) ||
+                                Constants.getHome_station_kiosk_id().equals(s.getKioskId()))
+                        {filteredArrayList.add(s);}
+                    }
+                }
+                else filteredArrayList.addAll(unfilteredStationArrayList);
+                results.values = filteredArrayList;
+                results.count = filteredArrayList.size();
+                return results;
+            }
+
+        };
+        return filter;
+    }
+    //dead code?
     public Bitmap decodeToBitmap(byte[] decodedByte) {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }

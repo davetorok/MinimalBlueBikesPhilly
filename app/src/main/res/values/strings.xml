@@ -19,6 +19,8 @@
     <string name="action_sort_docks">Sort by Docks</string>
     <string name="action_sort_distance">Sort by Distance</string>
     <string name="action_sort_direction">Sort by Direction</string>
+    <string name="action_filter_favorites">Show Favorite Stations</string>
+    <string name="action_filter_all">Show All Stations</string>
     <string name="constants_indegoAPIURL">https://api.phila.gov/bike-share-stations/v1</string>
 
     <!-- PREFERENCES -->

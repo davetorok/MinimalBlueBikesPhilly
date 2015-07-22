@@ -70,8 +70,11 @@ public class StationHints {
         JSONObject hint_obj = stationHintsMap.get(kioskId);
         if (hint_obj == null) return null;
         try {
-            String hint_str = hint_obj.getString("hint");
-            return hint_str;
+            if (hint_obj.has("hint")) {
+                String hint_str = hint_obj.getString("hint");
+                return hint_str;
+            }
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
