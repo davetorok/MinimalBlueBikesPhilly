@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import name.jugglerdave.minimalindego.activity.StationDetailActivity;
@@ -212,6 +213,13 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
     {
         unfilteredStationArrayList = new ArrayList<Station>(stationArrayList);
     }
+
+    //set from ListActivity, must be followed by filtering
+    public void updateUnfilteredStationArrayList(Station[] stationArray )
+    {
+        unfilteredStationArrayList = new ArrayList<Station>(Arrays.asList(stationArray));
+    }
+
 
     @Override
     public Filter getFilter() {

@@ -412,18 +412,12 @@ public class StationListActivity extends ActionBarActivity {
 
     public void refillAdapterFromStationArrayAndNotifyDataSetChanged()
     {
-        stationlistadapter.clear();
-        for(Station s : stationArray)
-        { stationlistadapter.add( s);}
-
-        //terrible hack
-        stationlistadapter.updateUnfilteredStationArrayList();
-
+        //set 'model' into array adapter.  must be followed by a filter call.
+        stationlistadapter.updateUnfilteredStationArrayList(stationArray);
         //and filter favorites if set
         stationlistadapter.getFilter().filter(filter_favorites_state ? "FAVORITES" : "ALL");
 
-        //not needed since the filter does it
-        //stationlistadapter.notifyDataSetChanged();
+
     }
 
     class NameSorter implements Comparator<Station> {
