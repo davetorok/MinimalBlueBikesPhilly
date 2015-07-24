@@ -91,10 +91,6 @@ public class StationListActivity extends ActionBarActivity {
         readFavoritesFromSettings();
 
         try {
-            SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
-            TextView tv = (TextView)findViewById(R.id.stationListText);
-
-
 
             StationList stats = app.getStationListModel();
             if (stats == null) //new application
@@ -102,6 +98,13 @@ public class StationListActivity extends ActionBarActivity {
                 first_time_do_read = true;
                 stats = new StationList();
 
+            }
+            else //set station text
+            {
+                TextView tv = (TextView)findViewById(R.id.stationListText);
+                SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
+                String ds = df.format(stats.refreshDateTime);
+                tv.setText( ds + ", " + stats.stations.size() + " stations");
             }
             StationStatistics stationStats = new StationStatistics(stats);
             app.setStationStats(stationStats);
