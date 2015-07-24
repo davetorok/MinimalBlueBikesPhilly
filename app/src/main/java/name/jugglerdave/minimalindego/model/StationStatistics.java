@@ -1,9 +1,11 @@
 package name.jugglerdave.minimalindego.model;
 
+import java.io.Serializable;
+
 /**
  * Created by dtorok on 5/15/2015.
  */
-public class StationStatistics {
+public class StationStatistics implements Serializable {
     int total_docks_available;//available docks
     int total_inactive_docks;// inactive docks / bikes in active stations
     int total_bikes;

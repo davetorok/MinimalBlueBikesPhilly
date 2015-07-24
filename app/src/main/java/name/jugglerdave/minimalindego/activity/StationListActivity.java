@@ -37,6 +37,7 @@ public class StationListActivity extends ActionBarActivity {
     public static final String LOG_TAG="StationListActivity";
     public static final String EXTRA_MESSAGE_STATION_NAME= "name.jugglerdave.minimalindego.STATION_NAME";
     public static final String EXTRA_MESSAGE_STATION_OBJECT= "name.jugglerdave.minimalindego.STATION_OBJECT";
+    public static final String EXTRA_MESSAGE_STATISTICS_OBJECT= "name.jugglerdave.minimalindego.STATISTICS_OBJECT";
     private StationListArrayAdapter stationlistadapter;
     private Station[] stationArray; //sorted view of the model;
     SharedPreferences preferences = null;
@@ -178,6 +179,13 @@ public class StationListActivity extends ActionBarActivity {
         else if(id == R.id.action_refresh)
         {
             refreshStations();
+            return true;
+        }
+        else if (id == R.id.action_statistics) {
+            Intent intent = new Intent(this, StatisticsActivity.class);
+            intent.putExtra(StationListActivity.EXTRA_MESSAGE_STATISTICS_OBJECT, app.getStationStats());
+
+            startActivity(intent);
             return true;
         }
         else if(id == R.id.action_sort_name)

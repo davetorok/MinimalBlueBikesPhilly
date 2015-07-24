@@ -24,6 +24,9 @@
     <item android:id="@+id/action_filter_favorites" android:title="@string/action_filter_favorites"
         android:orderInCategory="125" app:showAsAction="ifRoom"
         android:icon="@drawable/ic_stars_white_24dp"/>
+    <item android:id="@+id/action_statistics" android:title="@string/action_statistics"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:orderInCategory="127" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:icon="@drawable/ic_settings_white_24dp"
     android:orderInCategory="130" app:showAsAction="never" />
