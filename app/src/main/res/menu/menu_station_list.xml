@@ -7,24 +7,25 @@
     <item android:id="@+id/menu_sort" android:title="Sort"
         android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom|withText">
+        app:showAsAction="ifRoom">
 
     <menu>
     <item android:id="@+id/action_sort_name" android:title="@string/action_sort_name"
-        android:orderInCategory="110" app:showAsAction="never" />
+        android:orderInCategory="111" app:showAsAction="never" />
     <item android:id="@+id/action_sort_bikes" android:title="@string/action_sort_bikes"
-        android:orderInCategory="110" app:showAsAction="never" />
+        android:orderInCategory="112" app:showAsAction="never" />
     <item android:id="@+id/action_sort_docks" android:title="@string/action_sort_docks"
-        android:orderInCategory="110" app:showAsAction="never" />
+        android:orderInCategory="113" app:showAsAction="never" />
     <item android:id="@+id/action_sort_distance" android:title="@string/action_sort_distance"
         android:orderInCategory="110" app:showAsAction="never" />
     <item android:id="@+id/action_sort_direction" android:title="@string/action_sort_direction"
-        android:orderInCategory="110" app:showAsAction="never" />
+        android:orderInCategory="114" app:showAsAction="never" />
   </menu></item>
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:icon="@drawable/ic_settings_white_24dp"
-    android:orderInCategory="130" app:showAsAction="never" />
     <item android:id="@+id/action_filter_favorites" android:title="@string/action_filter_favorites"
         android:orderInCategory="125" app:showAsAction="ifRoom"
         android:icon="@drawable/ic_stars_white_24dp"/>
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:icon="@drawable/ic_settings_white_24dp"
+    android:orderInCategory="130" app:showAsAction="never" />
+
 </menu>

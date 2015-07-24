@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public abstract class GeoJSONObject implements Parcelable {
 
     // ------------------------------------------------------------------------
-    // Public Constants
+    // Public MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     public static final String JSON_TYPE = "type";

@@ -12,13 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,12 +24,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import name.jugglerdave.minimalindego.R;
-import name.jugglerdave.minimalindego.model.Constants;
+import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.model.StationHints;
 import name.jugglerdave.minimalindego.model.StationList;
 import name.jugglerdave.minimalindego.model.StationStatistics;
-import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoAPIReader;
 import name.jugglerdave.minimalindego.name.jugglerdave.minimalindego.network.IndegoReaderAsyncTask;
 import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
 
@@ -41,51 +38,52 @@ public class StationListActivity extends ActionBarActivity {
     public static final String EXTRA_MESSAGE_STATION_NAME= "name.jugglerdave.minimalindego.STATION_NAME";
     public static final String EXTRA_MESSAGE_STATION_OBJECT= "name.jugglerdave.minimalindego.STATION_OBJECT";
     private StationListArrayAdapter stationlistadapter;
-    private Station[] stationArray;
-    private StationStatistics stationStats;
-    private StationHints stationHints = null;
+    private Station[] stationArray; //sorted view of the model;
     SharedPreferences preferences = null;
     private boolean filter_favorites_state = false;
+    private MinimalBlueBikesApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        app = (MinimalBlueBikesApplication)getApplication();
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        boolean first_time_do_read = false; //new application creation?  read stations
 
 
         //get preferences for startup sort type
         if (preferences.contains("pref_defaultSortType"))
         {
-            Constants.setCurrent_station_list_sort(preferences.getString("pref_defaultSortType",Constants.default_sort));
-            Log.e(LOG_TAG, "set current sort to " + Constants.getCurrent_station_list_sort());
+            MinimalBlueBikesApplication.setCurrent_station_list_sort(preferences.getString("pref_defaultSortType", MinimalBlueBikesApplication.default_sort));
+            Log.e(LOG_TAG, "set current sort to " + MinimalBlueBikesApplication.getCurrent_station_list_sort());
 
         }
 
         //get preferences for home station
         if (preferences.contains("home_station_kiosk_id")) {
-            Constants.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", Constants.default_home_kiosk_id));
-            Constants.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) Constants.default_position_geo_long));
-            Constants.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat", (float) Constants.default_position_geo_lat));
+            MinimalBlueBikesApplication.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", MinimalBlueBikesApplication.default_home_kiosk_id));
+            MinimalBlueBikesApplication.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
+            MinimalBlueBikesApplication.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
         }
         //get preferences for current position kiosk
         if (preferences.contains("current_position_kiosk_id")) {
-            Constants.setCurrent_position_kiosk_id(preferences.getString("current_position_kiosk_id", Constants.default_position_kiosk_id));
-            Constants.setCurrent_position_geo_long(preferences.getFloat("current_position_geo_long", (float) Constants.default_position_geo_long));
-            Constants.setCurrent_position_geo_lat(preferences.getFloat("current_position_geo_lat",(float) Constants.default_position_geo_lat));
+            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(preferences.getString("current_position_kiosk_id", MinimalBlueBikesApplication.default_position_kiosk_id));
+            MinimalBlueBikesApplication.setCurrent_position_geo_long(preferences.getFloat("current_position_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
+            MinimalBlueBikesApplication.setCurrent_position_geo_lat(preferences.getFloat("current_position_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
         }
         //get preference to force 'home'
         if (preferences.getString("pref_startupStationType", "HOME").equalsIgnoreCase("HOME"))
         {
             //copy home to current
-            Constants.setCurrent_position_kiosk_id(Constants.getHome_station_kiosk_id());
-            Constants.setCurrent_position_geo_long(Constants.getHome_station_geo_long());
-            Constants.setCurrent_position_geo_lat(Constants.getHome_station_geo_lat());
+            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(MinimalBlueBikesApplication.getHome_station_kiosk_id());
+            MinimalBlueBikesApplication.setCurrent_position_geo_long(MinimalBlueBikesApplication.getHome_station_geo_long());
+            MinimalBlueBikesApplication.setCurrent_position_geo_lat(MinimalBlueBikesApplication.getHome_station_geo_lat());
         }
 
         //read favorites
@@ -96,8 +94,16 @@ public class StationListActivity extends ActionBarActivity {
             TextView tv = (TextView)findViewById(R.id.stationListText);
 
 
-            StationList stats = new StationList();
-            stationStats = new StationStatistics(stats);
+
+            StationList stats = app.getStationListModel();
+            if (stats == null) //new application
+            {
+                first_time_do_read = true;
+                stats = new StationList();
+
+            }
+            StationStatistics stationStats = new StationStatistics(stats);
+            app.setStationStats(stationStats);
 
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
 
@@ -114,11 +120,9 @@ public class StationListActivity extends ActionBarActivity {
                 }
             });
 
-            //Read the station hints
-            stationHints = new StationHints();
-            stationHints.readHintsJson(getApplicationContext());
-            //Start the async activity
-            ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
+            //Start the async activity, if this is the first call.
+            if (first_time_do_read) ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
+
 
         } catch (Exception ex) {
             Log.e(LOG_TAG, "exception in onCreate" + ex.getClass().getName());
@@ -178,31 +182,31 @@ public class StationListActivity extends ActionBarActivity {
         }
         else if(id == R.id.action_sort_name)
         {
-            Constants.setCurrent_station_list_sort("NAME");
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("NAME");
             sortByName();
             return true;
         }
         else if(id == R.id.action_sort_bikes)
         {
-            Constants.setCurrent_station_list_sort("BIKES");
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("BIKES");
             sortByBikes();
             return true;
         }
         else if(id == R.id.action_sort_docks)
         {
-            Constants.setCurrent_station_list_sort("DOCKS");
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("DOCKS");
             sortByDocks();
             return true;
         }
         else if(id == R.id.action_sort_distance)
         {
-            Constants.setCurrent_station_list_sort("DISTANCE");
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("DISTANCE");
             sortByDistance();
             return true;
         }
         else if(id == R.id.action_sort_direction)
         {
-            Constants.setCurrent_station_list_sort("DIRECTION");
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("DIRECTION");
             sortByDirection();
             return true;
         }
@@ -233,27 +237,16 @@ public class StationListActivity extends ActionBarActivity {
                 Log.i(LOG_TAG,"Selected item = " + item.toString());
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
 
-                Constants.setCurrent_position_kiosk_id(selectedstation.getKioskId());
-                Constants.setCurrent_position_geo_lat(selectedstation.getGeo_lat());
-                Constants.setCurrent_position_geo_long(selectedstation.getGeo_long());
-                SharedPreferences.Editor spe = preferences.edit();
-                spe.putString("current_position_kiosk_id", Constants.getCurrent_position_kiosk_id());
-                spe.putFloat("current_position_geo_long", (float) Constants.getCurrent_position_geo_long());
-                spe.putFloat("current_position_geo_lat", (float) Constants.getCurrent_position_geo_lat());
-                spe.commit();
+                app.setCurrentStationAndPersist(selectedstation);
+
                 sortByCurrentSortType();
                 return true;
             case R.id.set_home_station:
                 Log.i(LOG_TAG, "Selected item = " + item.toString());
                 Log.i(LOG_TAG,"Selected info = " + info.getClass().toString() + " " + info.id);
-                Constants.setHome_station_kiosk_id(selectedstation.getKioskId());
-                Constants.setHome_station_geo_long(selectedstation.getGeo_long());
-                Constants.setHome_station_geo_lat(selectedstation.getGeo_lat());
-                SharedPreferences.Editor spe2 = preferences.edit();
-                spe2.putString("home_station_kiosk_id", Constants.getHome_station_kiosk_id());
-                spe2.putFloat("home_station_geo_long", (float) Constants.getHome_station_geo_long());
-                spe2.putFloat("home_station_geo_lat", (float) Constants.getHome_station_geo_lat());
-                spe2.commit();
+
+                app.setHomeStationAndPersist(selectedstation);
+
                 stationlistadapter.notifyDataSetChanged(); //to redisplay with bold home
 
             default:
@@ -275,32 +268,32 @@ public class StationListActivity extends ActionBarActivity {
     }
 
 
-
+    /* called from async task when stationList has been read from network */
     public void refreshStationsFromAsyncTask(StationList stats)
     {
+        StationHints stationHints = app.getStationHints();
         //inflate 'hints' in the stations
         for (Station stat : stats.stations)
         {
+
             String hintString = stationHints.getHintString(stat.getKioskId());
             stat.setStation_hint(hintString);
         }
 
-        ListView lv = (ListView)findViewById(R.id.stationListView);
+        app.setStationListModel(stats);
         try {
-            stationStats = new StationStatistics(stats);
+
+            StationStatistics stationStats = new StationStatistics(stats);
+            app.setStationStats(stationStats);
             TextView tv = (TextView)findViewById(R.id.stationListText);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
             String ds = df.format(stats.refreshDateTime);
             tv.setText( ds + ", " + stats.stations.size() + " stations");
             stationArray = stats.stations.toArray(stationArray);
 
-
-
             //re-sort -- this also does the refilladapter and notify data set
             sortByCurrentSortType();
 
-            //done in the filter
-            //stationlistadapter.notifyDataSetChanged();
 
 
         } catch (Exception ex) {
@@ -321,7 +314,7 @@ public class StationListActivity extends ActionBarActivity {
 
     //preferences to favorites
     public void readFavoritesFromSettings()  {
-        Constants.favoriteStationsSet.clear();
+        MinimalBlueBikesApplication.favoriteStationsSet.clear();
         if (preferences.contains("favorite_stations_json_string")) {
 
             String prefstring = preferences.getString("favorite_stations_json_string",null);
@@ -331,7 +324,7 @@ public class StationListActivity extends ActionBarActivity {
                     JSONArray myary = new JSONArray(prefstring);
                     for (int i = 0; i < myary.length(); i++)
                     {
-                        Constants.favoriteStationsSet.add(myary.getString(i));
+                        MinimalBlueBikesApplication.favoriteStationsSet.add(myary.getString(i));
                     }
 
                 } catch (JSONException ex) {
@@ -345,7 +338,7 @@ public class StationListActivity extends ActionBarActivity {
 
     public void sortByCurrentSortType()
     {
-        switch (Constants.getCurrent_station_list_sort()) {
+        switch (MinimalBlueBikesApplication.getCurrent_station_list_sort()) {
             case "DISTANCE":
                 sortByDistance();
                 break;
@@ -444,15 +437,15 @@ public class StationListActivity extends ActionBarActivity {
     class DistanceSorter implements Comparator<Station> {
         public int compare(Station left, Station right)
         {
-            return Constants.getGridMilesDistanceFromCurrent(left) <  Constants.getGridMilesDistanceFromCurrent(right) ? -1 : 1;
+            return MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(left) <  MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(right) ? -1 : 1;
             // TODO support preference for Grid vs. Air distance
-            // return Constants.getMilesDistanceFromCurrent(left) <  Constants.getMilesDistanceFromCurrent(right) ? -1 : 1;
+            // return MinimalBlueBikesApplication.getMilesDistanceFromCurrent(left) <  MinimalBlueBikesApplication.getMilesDistanceFromCurrent(right) ? -1 : 1;
         }
     }
     class DirectionSorter implements Comparator<Station> {
         public int compare(Station left, Station right)
         {
-            return (Constants.getBearingToFromCurrent(left)+90) <  (Constants.getBearingToFromCurrent(right)+90) ? -1 : 1;
+            return (MinimalBlueBikesApplication.getBearingToFromCurrent(left)+90) <  (MinimalBlueBikesApplication.getBearingToFromCurrent(right)+90) ? -1 : 1;
 
         }
     }

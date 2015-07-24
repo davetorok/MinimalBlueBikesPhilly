@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class Feature extends GeoJSONObject {
 
     // ------------------------------------------------------------------------
-    // Private Constants
+    // Private MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     private static final String JSON_ID = "id";

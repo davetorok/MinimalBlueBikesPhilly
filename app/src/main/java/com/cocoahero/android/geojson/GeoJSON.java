@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class GeoJSON {
 
     // ------------------------------------------------------------------------
-    // Public Constants
+    // Public MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     public static final String TYPE_POINT = "Point";

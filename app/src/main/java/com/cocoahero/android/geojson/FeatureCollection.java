@@ -13,7 +13,7 @@ import java.util.List;
 public class FeatureCollection extends GeoJSONObject {
 
     // ------------------------------------------------------------------------
-    // Constants
+    // MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     public static final String JSON_FEATURES = "features";

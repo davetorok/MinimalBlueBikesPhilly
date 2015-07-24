@@ -13,7 +13,7 @@ import java.util.List;
 public class GeometryCollection extends Geometry {
 
     // ------------------------------------------------------------------------
-    // Public Constants
+    // Public MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     public static final String JSON_GEOMETRIES = "geometries";

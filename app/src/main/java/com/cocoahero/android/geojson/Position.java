@@ -12,7 +12,7 @@ import android.os.Parcelable;
 public class Position implements Parcelable {
 
     // ------------------------------------------------------------------------
-    // Private Constants
+    // Private MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     private static final int LON_IDX = 0;

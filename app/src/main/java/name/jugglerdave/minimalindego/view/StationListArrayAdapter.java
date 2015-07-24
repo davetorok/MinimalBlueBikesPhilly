@@ -1,6 +1,5 @@
 package name.jugglerdave.minimalindego.view;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -13,21 +12,18 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import name.jugglerdave.minimalindego.activity.StationDetailActivity;
 import name.jugglerdave.minimalindego.activity.StationListActivity;
-import name.jugglerdave.minimalindego.model.Constants;
+import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.R;
 /**
@@ -130,7 +126,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
        }
 
         //BOLD the home station
-        if (this_station.getKioskId().equals(Constants.getHome_station_kiosk_id()))
+        if (this_station.getKioskId().equals(MinimalBlueBikesApplication.getHome_station_kiosk_id()))
         {
             viewHolder.stationNameTextView.setTypeface(null, Typeface.BOLD);
         }
@@ -168,12 +164,12 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         viewHolder.bearingImageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
 
 
-        if (Constants.getGridMilesDistanceFromCurrent(this_station) > 0.05)
+        if (MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station) > 0.05)
         {
             viewHolder.bearingImageView.setImageResource(R.drawable.bearingarrow);
             matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);
             //adjust bearing to account for philly grid tilt
-            matrix.postRotate((float) Constants.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) Constants.phila_map_tilt_degrees), 15, 10);
+            matrix.postRotate((float) MinimalBlueBikesApplication.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) MinimalBlueBikesApplication.phila_map_tilt_degrees), 15, 10);
 
         } else {
             // current row is the current station location
@@ -185,14 +181,14 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
 
         viewHolder.stationNameTextView.setText(this_station.getStation_name() + " " +
                 // rectangular grid distance
-                String.format("%.2f", Constants.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
+                String.format("%.2f", MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
      // straight line distance
-     //          String.format("%.2f", Constants.getMilesDistanceFromCurrent(this_station)) + " mi " +
+     //          String.format("%.2f", MinimalBlueBikesApplication.getMilesDistanceFromCurrent(this_station)) + " mi " +
 
                 (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
                 + (this_station.getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : ""));
-        Log.d(LOG_TAG, "Bearing" + this_station.getStation_name() + "[" + Constants.getBearingToFromCurrent(this_station) + "]");
-        Log.d(LOG_TAG, "GridMilesDistance" + this_station.getStation_name() + "[" + Constants.getGridMilesDistanceFromCurrent(this_station) + "]" );
+        Log.d(LOG_TAG, "Bearing" + this_station.getStation_name() + "[" + MinimalBlueBikesApplication.getBearingToFromCurrent(this_station) + "]");
+        Log.d(LOG_TAG, "GridMilesDistance" + this_station.getStation_name() + "[" + MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station) + "]" );
 
 
         viewHolder.bikesCountTextView.setText("" + this_station.getBikesAvailable());
@@ -251,9 +247,9 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
                     for (Station s : unfilteredStationArrayList)
                     {
                         //is it a favorite, home station, or current station?
-                        if (Constants.favoriteStationsSet.contains(s.getKioskId()) ||
-                                Constants.getCurrent_position_kiosk_id().equals(s.getKioskId()) ||
-                                Constants.getHome_station_kiosk_id().equals(s.getKioskId()))
+                        if (MinimalBlueBikesApplication.favoriteStationsSet.contains(s.getKioskId()) ||
+                                MinimalBlueBikesApplication.getCurrent_position_kiosk_id().equals(s.getKioskId()) ||
+                                MinimalBlueBikesApplication.getHome_station_kiosk_id().equals(s.getKioskId()))
                         {filteredArrayList.add(s);}
                     }
                 }

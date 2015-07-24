@@ -2,6 +2,8 @@ package name.jugglerdave.minimalindego.model;
 
 import java.io.Serializable;
 
+import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
+
 /**
  * Created by dtorok on 5/15/2015.
  */
@@ -100,7 +102,7 @@ public class Station implements Serializable {
     }
 
     public String toString()
-    { return getStation_name() + " " +  String.format("%.2f",Constants.getMilesDistanceFromCurrent(this)) + " mi " +  "Bikes: " + getBikesAvailable() + " Docks:" + getDocksAvailable()
+    { return getStation_name() + " " +  String.format("%.2f", MinimalBlueBikesApplication.getMilesDistanceFromCurrent(this)) + " mi " +  "Bikes: " + getBikesAvailable() + " Docks:" + getDocksAvailable()
             + (getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
             + (getKioskPublicStatus().equals("ComingSoon") ? "[SOON]" : "");}
 }

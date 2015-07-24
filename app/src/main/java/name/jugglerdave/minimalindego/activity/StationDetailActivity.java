@@ -15,11 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import name.jugglerdave.minimalindego.R;
-import name.jugglerdave.minimalindego.model.Constants;
+import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
 
 public class StationDetailActivity extends ActionBarActivity {
@@ -115,9 +113,9 @@ public class StationDetailActivity extends ActionBarActivity {
 
         CheckBox cb = (CheckBox)findViewById(R.id.favorite);
         //favorites
-        if (Constants.favoriteStationsSet != null )
+        if (MinimalBlueBikesApplication.favoriteStationsSet != null )
         {
-            cb.setChecked(Constants.favoriteStationsSet.contains(station.getKioskId()));
+            cb.setChecked(MinimalBlueBikesApplication.favoriteStationsSet.contains(station.getKioskId()));
         }
 
     }
@@ -129,10 +127,10 @@ public class StationDetailActivity extends ActionBarActivity {
             //set station as favorite
             Log.i(LOG_TAG, "Set Favorite = " + station.getKioskId() + " " + station.getStation_name());
             //add to favorite
-            Constants.favoriteStationsSet.add(station.getKioskId());
+            MinimalBlueBikesApplication.favoriteStationsSet.add(station.getKioskId());
 
             //TEST - print out current JSONObject string
-            JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+            JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
             Log.d(LOG_TAG, "JSON string = " + myary.toString());
 
 
@@ -142,9 +140,9 @@ public class StationDetailActivity extends ActionBarActivity {
         {
             //unset station as favorite
             Log.i(LOG_TAG, "Clear Favorite = " + station.getKioskId() + " " + station.getStation_name());
-            Constants.favoriteStationsSet.remove(station.getKioskId());
+            MinimalBlueBikesApplication.favoriteStationsSet.remove(station.getKioskId());
 //TEST - print out current JSONObject string
-            JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+            JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
             Log.d(LOG_TAG, "JSON string = " + myary.toString());
         }
 
@@ -183,7 +181,7 @@ public class StationDetailActivity extends ActionBarActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         SharedPreferences.Editor spe = preferences.edit();
-        JSONArray myary = new JSONArray(Constants.favoriteStationsSet);
+        JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
         spe.putString("favorite_stations_json_string", myary.toString());
         spe.commit();
 

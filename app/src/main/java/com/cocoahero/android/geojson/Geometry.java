@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public abstract class Geometry extends GeoJSONObject {
 
     // ------------------------------------------------------------------------
-    // Public Constants
+    // Public MinimalBlueBikesApplication
     // ------------------------------------------------------------------------
 
     public static final String JSON_COORDINATES = "coordinates";
