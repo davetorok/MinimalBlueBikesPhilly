@@ -314,6 +314,13 @@
         android:gravity="right"
         android:background="#ffff0002" />
 
-
+    <TextView android:text="@string/string_lastRefreshInitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/statsrefreshdatetextview"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/statsnumemptystations"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>
 </ScrollView>

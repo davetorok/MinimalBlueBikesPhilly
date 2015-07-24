@@ -1,6 +1,7 @@
 package name.jugglerdave.minimalindego.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by dtorok on 5/15/2015.
@@ -17,6 +18,7 @@ public class StationStatistics implements Serializable {
     int total_stations_empty;
     int total_stations_nearly_full;
     int total_stations_nearly_empty;
+    public Date refreshDateTime = new Date();
     public StationStatistics() {
         resetStatisticsToZero();
     }
@@ -37,6 +39,7 @@ public class StationStatistics implements Serializable {
         resetStatisticsToZero();
         if (stats == null) return;
         if (stats.stations == null) return;
+        refreshDateTime = stats.refreshDateTime;
         for (Station stat : stats.stations)
         {
             total_stations++;

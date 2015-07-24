@@ -10,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+
 import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
@@ -43,6 +45,12 @@ public class StatisticsActivity extends ActionBarActivity {
         tv.setText(""+stats.getTotal_stations_empty());
         tv = (TextView)findViewById(R.id.statsnuminactivedocks);
         tv.setText(""+stats.getTotal_inactive_docks());
+
+         tv = (TextView)findViewById(R.id.statsrefreshdatetextview);
+            SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
+            String ds = df.format(stats.refreshDateTime);
+            tv.setText( "Data as of: " + ds );
+
 
 
     }
