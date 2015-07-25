@@ -2,12 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".StationListActivity">
     <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
-        android:orderInCategory="105" app:showAsAction="ifRoom"
+        android:orderInCategory="105" app:showAsAction="always"
         android:icon="@drawable/ic_refresh_white_24dp"/>
     <item android:id="@+id/menu_sort" android:title="Sort"
         android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
 
     <menu>
     <item android:id="@+id/action_sort_name" android:title="@string/action_sort_name"
@@ -22,11 +22,11 @@
         android:orderInCategory="114" app:showAsAction="never" />
   </menu></item>
     <item android:id="@+id/action_filter_favorites" android:title="@string/action_filter_favorites"
-        android:orderInCategory="125" app:showAsAction="ifRoom"
+        android:orderInCategory="101" app:showAsAction="always"
         android:icon="@drawable/ic_stars_white_24dp"/>
     <item android:id="@+id/action_statistics" android:title="@string/action_statistics"
         android:icon="@drawable/ic_settings_white_24dp"
-        android:orderInCategory="127" app:showAsAction="never" />
+        android:orderInCategory="127" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:icon="@drawable/ic_settings_white_24dp"
     android:orderInCategory="130" app:showAsAction="never" />

@@ -12,7 +12,7 @@ import name.jugglerdave.minimalindego.view.StationListArrayAdapter;
  */
 public class IndegoReaderAsyncTask extends AsyncTask<Void,Integer,StationList> {
 
-    public static final String LOG_TAG = "IntegoReaderAsyncTask";
+    public static final String LOG_TAG = "IndegoReaderAsyncTask";
 
     private StationListActivity activity_context;
     private StationListArrayAdapter arrayadapter_context;

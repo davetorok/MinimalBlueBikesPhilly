@@ -2,5 +2,6 @@
 <resources>
 
     <color name="bikes_available_text_color">#FF0280CD</color>
+    <color name="actiontextcolor">#FF000000</color>
 
 </resources>

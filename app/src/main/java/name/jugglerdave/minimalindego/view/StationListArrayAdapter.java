@@ -49,8 +49,10 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
     }
 
     public StationListArrayAdapter(Context context, int textViewResourceId, ArrayList<Station> thearray) {
+        //clone to avoid side effects
         super(context, textViewResourceId, thearray);
         stationArrayList = thearray;
+       unfilteredStationArrayList = new ArrayList<Station>(thearray);
     }
 
     @Override
@@ -204,11 +206,6 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         return stationArrayList.get(position);
     }
 
-    //terrible hack, when data is refreshed externally but need to reset "originals" before filtering again.
-    public void updateUnfilteredStationArrayList()
-    {
-        unfilteredStationArrayList = new ArrayList<Station>(stationArrayList);
-    }
 
     //set from ListActivity, must be followed by filtering
     public void updateUnfilteredStationArrayList(Station[] stationArray )

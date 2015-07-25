@@ -34,7 +34,7 @@
         android:maxWidth="30dp"
         android:maxHeight="50dp"
         android:src="@drawable/bearingarrow"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:alpha="255"
         android:padding="4dp" />
 

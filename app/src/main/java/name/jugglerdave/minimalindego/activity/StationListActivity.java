@@ -43,10 +43,16 @@ public class StationListActivity extends ActionBarActivity {
     SharedPreferences preferences = null;
     private boolean filter_favorites_state = false;
     private MinimalBlueBikesApplication app;
+    private Menu actionMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null)
+        {
+            filter_favorites_state = savedInstanceState.getBoolean("filter_favorites_state");
+        }
 
         app = (MinimalBlueBikesApplication)getApplication();
 
@@ -111,7 +117,8 @@ public class StationListActivity extends ActionBarActivity {
 
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
 
-            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, (ArrayList<Station>)stats.stations); //usestationarray????
+            //clone arraylist to avoid side effects by modifying stationArray in this class
+            stationlistadapter = new StationListArrayAdapter(this, R.layout.station_list_row, new ArrayList<Station>(stats.stations)); //usestationarray????
             sortByCurrentSortType();
             lv.setAdapter(stationlistadapter);
             registerForContextMenu(lv);
@@ -136,9 +143,25 @@ public class StationListActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("filter_favorites_state", filter_favorites_state);
+
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            filter_favorites_state = savedInstanceState.getBoolean("filter_favorites_state");
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_station_list, menu);
+        actionMenu = menu; //save reference for icon toggle
         return true;
     }
 
@@ -152,11 +175,22 @@ public class StationListActivity extends ActionBarActivity {
             it.setIcon(R.drawable.ic_stars_white_24dp);
         } else {
             it.setTitle(R.string.action_filter_favorites);
+            it.setIcon(R.drawable.ic_star_border_white_24dp);
         }
         return displayit;
 
+    }
 
-
+    public void setFavoritesActionBarIcon()
+    {
+        MenuItem it = actionMenu.findItem(R.id.action_filter_favorites);
+        if (filter_favorites_state) {
+            it.setTitle(R.string.action_filter_all);
+            it.setIcon(R.drawable.ic_stars_white_24dp);
+        } else {
+            it.setTitle(R.string.action_filter_favorites);
+            it.setIcon(R.drawable.ic_star_border_white_24dp);
+        }
     }
 
     @Override
@@ -228,13 +262,16 @@ public class StationListActivity extends ActionBarActivity {
                 //filterable
                 stationlistadapter.getFilter().filter("FAVORITES");
                 filter_favorites_state = true;
+
             }
             else
             {
                 //show all stations
                 stationlistadapter.getFilter().filter("ALL");
                 filter_favorites_state = false;
+
             }
+            setFavoritesActionBarIcon();
         }
 
         return super.onOptionsItemSelected(item);

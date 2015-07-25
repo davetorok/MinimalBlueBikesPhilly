@@ -2,6 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarWidgetTheme">@style/Theme.AppCompat</item>
+
         <!-- Customize your theme here. -->
     </style>
 
