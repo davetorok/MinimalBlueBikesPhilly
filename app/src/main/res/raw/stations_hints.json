@@ -1,0 +1,390 @@
+ [
+  	   {
+        "addressStreet": "1401 John F. Kennedy Blvd.",
+        "kioskId": 3004,
+        "name": "Municipal Services Building Plaza",
+		"hint": "North of City Hall, W side Broad St"
+      },
+      {
+        "addressStreet": "192 S. 2nd St.",
+        "kioskId": 3005,
+        "name": "Welcome Park, NPS",
+		"hint": "2nd/Sansom near Ritz East"
+      },
+      {
+        "addressStreet": "246 S. 40th St.",
+        "kioskId": 3006,
+        "name": "40th & Spruce",
+		"hint": "NW Corner, Penn Dental"
+      },
+      {
+        "addressStreet": "328 S. 11th St.",
+        "kioskId": 3007,
+        "name": "11th & Pine, Kahn Park",
+		"hint": "NW Corner, rear of park"
+      },
+      {
+        "addressStreet": "1076 Berks Street",
+        "kioskId": 3008,
+        "name": "Berks & Hancock, Temple University Station"
+      },
+      {
+        "addressStreet": "3318 Market St.",
+        "kioskId": 3009,
+        "name": "33rd & Market"
+      },
+      {
+        "addressStreet": "1483 Spruce St.",
+        "kioskId": 3010,
+        "name": "15th & Spruce",
+		"hint": "SE Corner, by Kimmel Center"
+      },
+      {
+        "addressStreet": "3801 Lancaster Avenue",
+        "kioskId": 3011,
+        "name": "38th & Lancaster",
+		"hint": "NW Corner"
+      },
+      {
+        "addressStreet": "807 S. 21st St.",
+        "kioskId": 3012,
+        "name": "21st & Catharine",
+		"hint": "E Side"
+      },
+      {
+        "addressStreet": "674 N. 6th St.",
+        "kioskId": 3013,
+        "name": "6th & Fairmount"
+      },
+      {
+        "addressStreet": "2090 Winter St.",
+        "kioskId": 3014,
+        "name": "21st & Winter, Franklin Institute",
+		"hint": "North Side of Franklin Institute"
+      },
+      {
+        "addressStreet": "421 Walnut St.",
+        "kioskId": 3015,
+        "name": "4th & Walnut, NPS",
+		"hint": "South Side of Walnut, midblock"
+      },
+      {
+        "addressStreet": "1100 Poplar St.",
+        "kioskId": 3016,
+        "name": "11th & Poplar, John F. Street Community Center"
+      },
+      {
+        "addressStreet": "527 W. Berks St.",
+        "kioskId": 3017,
+        "name": "6th & Berks"
+      },
+      {
+        "addressStreet": "1200 Filbert St.",
+        "kioskId": 3018,
+        "name": "12th & Filbert",
+		"hint": "SW Corner, near Reading Terminal"
+      },
+      {
+        "addressStreet": "160 N. 6th St.",
+        "kioskId": 3019,
+        "name": "6th & Race "
+      },
+      {
+        "addressStreet": "3051 South St.",
+        "kioskId": 3020,
+        "name": "University City Station",
+		"hint": "S side of South St, by Penn Museum"
+      },
+      {
+        "addressStreet": "1750 John F. Kennedy Blvd.",
+        "kioskId": 3021,
+        "name": "18th & JFK",
+		"hint": "S side midblock 17th-18th across from Comcast Center"
+      },
+      {
+        "addressStreet": "2933 Market Street",
+        "kioskId": 3022,
+        "name": "Amtrak 30th Street Station ",
+		"hint": "SE corner 30th/Market"
+      },
+      {
+        "addressStreet": "1911 Walnut St",
+        "kioskId": 3023,
+        "name": "Rittenhouse Square",
+		"hint": "N side Walnut, across NW corner of Ritt Square"
+      },
+      {
+        "addressStreet": "598 S. 43rd St.",
+        "kioskId": 3024,
+        "name": "43rd & Chester, Clark Park"
+      },
+      {
+        "addressStreet": "1084 Washington Ave.",
+        "kioskId": 3025,
+        "name": "11th & Washington",
+		"hint": "NE Corner, by CVS"
+      },
+      {
+        "addressStreet": "523 S. 2nd St.",
+        "kioskId": 3026,
+        "name": "2nd & South "
+      },
+      {
+        "addressStreet": "3984 Market St.",
+        "kioskId": 3027,
+        "name": "40th Street Station, MFL"
+      },
+      {
+        "addressStreet": "404 Bainbridge St.",
+        "kioskId": 3028,
+        "name": "4th & Bainbridge "
+      },
+      {
+        "addressStreet": "125 S. 36th St.",
+        "kioskId": 3029,
+        "name": "36th & Sansom "
+      },
+      {
+        "addressStreet": "840 S. Darien St.",
+        "kioskId": 3030,
+        "name": "Darien & Catharine",
+		"hint": "Behind Rite-Aid, E of 9th St"
+      },
+      {
+        "addressStreet": "1284 W. Montgomery Ave.",
+        "kioskId": 3031,
+        "name": "13th & Montgomery"
+      },
+      {
+        "addressStreet": "671 S. 23rd St.",
+        "kioskId": 3032,
+        "name": "23rd & South ",
+		"hint": "Grays Ferry Triangle"
+      },
+      {
+        "addressStreet": "921 Chestnut St.",
+        "kioskId": 3033,
+        "name": "10th & Chestnut"
+      },
+      {
+        "addressStreet": "1116 Reed St.",
+        "kioskId": 3034,
+        "name": "11th & Reed",
+		"hint": "Near Wharton St, North of Acme"
+      },
+      {
+        "addressStreet": "1104 Germantown Ave.",
+        "kioskId": 3036,
+        "name": "2nd & Germantown"
+      },
+      {
+        "addressStreet": "1321 Arch St.",
+        "kioskId": 3037,
+        "name": "Pennsylvania Convention Center"
+      },
+      {
+        "addressStreet": "3499 Civic Center Blvd.",
+        "kioskId": 3038,
+        "name": "The Children's Hospital of Philadelphia (CHOP)"
+      },
+      {
+        "addressStreet": "922 N. Broad St.",
+        "kioskId": 3039,
+        "name": "Broad & Girard"
+      },
+      {
+        "addressStreet": "1684 Spring Garden St.",
+        "kioskId": 3040,
+        "name": "17th & Spring Garden, Community College of Philadelphia"
+      },
+      {
+        "addressStreet": "1176 Leopard Ave.",
+        "kioskId": 3041,
+        "name": "Girard Station, MFL",
+		"hint": "S side Girard, 1 blk E of MFL, McDonalds"
+      },
+      {
+        "addressStreet": "1625 S. 18th St.",
+        "kioskId": 3043,
+        "name": "18th & Fernon, Aquinas Center"
+      },
+      {
+        "addressStreet": "213 S. 13th St.",
+        "kioskId": 3045,
+        "name": "13th & Locust",
+		"hint": "NW Corner"
+      },
+      {
+        "addressStreet": "215 Market St.",
+        "kioskId": 3046,
+        "name": "2nd & Market"
+      },
+      {
+        "addressStreet": "519 Market St.",
+        "kioskId": 3047,
+        "name": "Independence Mall, NPS"
+      },
+      {
+        "addressStreet": "726 S. Broad St.",
+        "kioskId": 3048,
+        "name": "Broad & Fitzwater"
+      },
+      {
+        "addressStreet": "3 Dock St.",
+        "kioskId": 3049,
+        "name": "Foglietta Plaza",
+		"hint": "N side plaza, think Front & Locust"
+      },
+      {
+        "addressStreet": "813 Arch St.",
+        "kioskId": 3050,
+        "name": "9th & Arch "
+      },
+      {
+        "addressStreet": "2237 Fairmount Ave.",
+        "kioskId": 3051,
+        "name": "23rd & Fairmount"
+      },
+      {
+        "addressStreet": "923 Locust St.",
+        "kioskId": 3052,
+        "name": "9th & Locust"
+      },
+      {
+        "addressStreet": "1575 Point Breeze Ave.",
+        "kioskId": 3053,
+        "name": "Point Breeze & Tasker"
+      },
+      {
+        "addressStreet": "2170 Hamilton St.",
+        "kioskId": 3054,
+        "name": "Rodin Museum"
+      },
+      {
+        "addressStreet": "834 Market St.",
+        "kioskId": 3055,
+        "name": "8th & Market"
+      },
+      {
+        "addressStreet": "1501 N. Broad St.",
+        "kioskId": 3056,
+        "name": "Broad & Oxford"
+      },
+      {
+        "addressStreet": "2600 Benjamin Franklin Pkwy.",
+        "kioskId": 3057,
+        "name": "Philadelphia Museum of Art",
+		"hint": "L side of museum steps bottom"
+      },
+      {
+        "addressStreet": "1940 Fairmount Ave.",
+        "kioskId": 3058,
+        "name": "20th & Fairmount"
+      },
+      {
+        "addressStreet": "1415 Spring Garden St.",
+        "kioskId": 3059,
+        "name": "Spring Garden Station, BSL"
+      },
+      {
+        "addressStreet": "302 N. 19th St.",
+        "kioskId": 3060,
+        "name": "Free Library of Philadelphia - Central Library",
+        "hint": "E side of Library, NW corner 19th/Vine"
+      },
+      {
+        "addressStreet": "2241 Market St.",
+        "kioskId": 3061,
+        "name": "23rd & Market",
+        "hint": "NE Corner"
+      },
+      {
+        "addressStreet": "120 S. 24th St.",
+        "kioskId": 3062,
+        "name": "24th & Sansom "
+      },
+      {
+        "addressStreet": "391  S. 17th St.",
+        "kioskId": 3063,
+        "name": "17th & Pine",
+        "hint": "NE Corner"
+      },
+      {
+        "addressStreet": "1800 Washington Ave.",
+        "kioskId": 3064,
+        "name": "18th & Washington, Chew Playground"
+      },
+      {
+        "addressStreet": "915 W. Girard Ave.",
+        "kioskId": 3065,
+        "name": "Girard & Hutchinson"
+      },
+      {
+        "addressStreet": "1910 Lombard St.",
+        "kioskId": 3066,
+        "name": "19th & Lombard "
+      },
+      {
+        "addressStreet": "631 N. 39th St.",
+        "kioskId": 3067,
+        "name": "39th & Mt. Vernon, Mantua Haverford Community Center"
+      },
+      {
+        "addressStreet": "1201 S. Broad St.",
+        "kioskId": 3068,
+        "name": "Broad & Federal ",
+        "hint": "SE Corner"
+      },
+      {
+        "addressStreet": "403 Christian St.",
+        "kioskId": 3069,
+        "name": "4th & Christian"
+      },
+      {
+        "addressStreet": "117 Spring Garden St.",
+        "kioskId": 3070,
+        "name": "Spring Garden Station, MFL"
+      },
+      {
+        "addressStreet": "3170 Baring St.",
+        "kioskId": 3071,
+        "name": "32nd & Baring, Drexel Park"
+      },
+      {
+        "addressStreet": "925 S. Front St.",
+        "kioskId": 3072,
+        "name": "Front & Carpenter"
+      },
+      {
+        "addressStreet": "802 Spring Garden St.",
+        "kioskId": 3073,
+        "name": "9th & Spring Garden"
+      },
+      {
+        "addressStreet": "160 S. 44th St.",
+        "kioskId": 3074,
+        "name": "44th & Walnut",
+        "hint": "NE Corner, Supermarket parking lot"
+      },
+      {
+        "addressStreet": "1413 Fairmount Ave.",
+        "kioskId": 3075,
+        "name": "Fairmount & Ridge"
+      },
+      {
+        "addressStreet": "1617 Girard Ave.",
+        "kioskId": 3077,
+        "name": "17th & Girard"
+      },
+      {
+        "addressStreet": "1901 Market St.",
+        "kioskId": 3078,
+        "name": "19th & Market"
+	  },
+   {
+     "addressStreet": "1406 Christian St",
+     "kioskId": 3086,
+     "name": "Broad & Christian"
+   }
+ ]
+
