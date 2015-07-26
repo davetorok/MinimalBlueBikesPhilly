@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconImage"
+            android:src="@drawable/minimal_bluebikes_icon"
+            android:maxWidth="72dp"
+            android:minHeight="72dp"
+            android:adjustViewBounds="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss"
+        android:id="@+id/okButton"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/homepage"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/appname"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/iconImage"
+        android:layout_toEndOf="@+id/iconImage"
+        android:layout_marginLeft="8dp"
+        android:layout_alignTop="@+id/iconImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Copyright &#169;  2015 by Dave Torok"
+        android:id="@+id/copyrightTextView"
+        android:layout_below="@+id/iconImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Homepage, Tips, and Help"
+        android:id="@+id/pageLabel"
+        android:layout_below="@+id/taglinetext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="github.com/davetorok/MinimalBlueBikesPhilly"
+        android:id="@+id/homepage"
+        android:layout_below="@+id/pageLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Version"
+        android:id="@+id/versionlabel"
+        android:layout_below="@+id/appname"
+        android:layout_alignLeft="@+id/appname"
+        android:layout_alignStart="@+id/appname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="v1.0"
+        android:id="@+id/versionnum"
+        android:layout_below="@+id/appname"
+        android:layout_toRightOf="@+id/versionlabel"
+        android:layout_toEndOf="@+id/versionlabel"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="An Independent App to display Indego Bike Share status"
+            android:id="@+id/detailstext"
+            android:layout_below="@+id/copyrightTextView"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="No GPS.  No Map.  Manual Refresh.  Minimal Data Usage."
+            android:id="@+id/taglinetext"
+            android:layout_below="@+id/detailstext"
+            android:layout_alignLeft="@+id/copyrightTextView"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
+    </ScrollView>

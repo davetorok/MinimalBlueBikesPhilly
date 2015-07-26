@@ -3,6 +3,7 @@ package name.jugglerdave.minimalindego.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import name.jugglerdave.minimalindego.AboutDialog;
 import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
@@ -57,6 +59,8 @@ public class StationListActivity extends ActionBarActivity {
         app = (MinimalBlueBikesApplication)getApplication();
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+
+
 
         setContentView(R.layout.activity_station_list);
         ListView lv = (ListView)findViewById(R.id.stationListView);
@@ -169,14 +173,7 @@ public class StationListActivity extends ActionBarActivity {
     // @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean displayit = super.onPrepareOptionsMenu(menu);
-        MenuItem it = menu.findItem(R.id.action_filter_favorites);
-        if (filter_favorites_state) {
-            it.setTitle(R.string.action_filter_all);
-            it.setIcon(R.drawable.ic_stars_white_24dp);
-        } else {
-            it.setTitle(R.string.action_filter_favorites);
-            it.setIcon(R.drawable.ic_star_border_white_24dp);
-        }
+        setFavoritesActionBarIcon();
         return displayit;
 
     }
@@ -186,7 +183,7 @@ public class StationListActivity extends ActionBarActivity {
         MenuItem it = actionMenu.findItem(R.id.action_filter_favorites);
         if (filter_favorites_state) {
             it.setTitle(R.string.action_filter_all);
-            it.setIcon(R.drawable.ic_stars_white_24dp);
+            it.setIcon(R.drawable.ic_star_white_24dp);
         } else {
             it.setTitle(R.string.action_filter_favorites);
             it.setIcon(R.drawable.ic_star_border_white_24dp);
@@ -272,6 +269,11 @@ public class StationListActivity extends ActionBarActivity {
 
             }
             setFavoritesActionBarIcon();
+        }
+        else if (id == R.id.action_about)
+        {
+            AboutDialog dialog = new AboutDialog(this);
+            dialog.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -377,7 +379,8 @@ public class StationListActivity extends ActionBarActivity {
 
                 } catch (JSONException ex) {
                     //can't parse favorites string
-                    //TODO log it
+                    Log.d(LOG_TAG,"Can't read favorites String JSON");
+
                 }
             }
         }
