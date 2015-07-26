@@ -87,7 +87,8 @@
       {
         "addressStreet": "160 N. 6th St.",
         "kioskId": 3019,
-        "name": "6th & Race "
+        "name": "6th & Race ",
+        "hint": "W side, S of Race, near SE corner Franklin Square"
       },
       {
         "addressStreet": "3051 South St.",
@@ -243,7 +244,8 @@
       {
         "addressStreet": "2237 Fairmount Ave.",
         "kioskId": 3051,
-        "name": "23rd & Fairmount"
+        "name": "23rd & Fairmount",
+        "hint": "N side of street"
       },
       {
         "addressStreet": "923 Locust St.",
@@ -258,7 +260,8 @@
       {
         "addressStreet": "2170 Hamilton St.",
         "kioskId": 3054,
-        "name": "Rodin Museum"
+        "name": "Rodin Museum",
+        "hint": "NW corner of museum, 1 block N of parkway"
       },
       {
         "addressStreet": "834 Market St.",
@@ -301,7 +304,8 @@
       {
         "addressStreet": "120 S. 24th St.",
         "kioskId": 3062,
-        "name": "24th & Sansom "
+        "name": "24th & Sansom",
+        "hint": "Peds can access down 24th/Walnut St stairs"
       },
       {
         "addressStreet": "391  S. 17th St.",
@@ -322,7 +326,8 @@
       {
         "addressStreet": "1910 Lombard St.",
         "kioskId": 3066,
-        "name": "19th & Lombard "
+        "name": "19th & Lombard ",
+        "hint": "SW corner"
       },
       {
         "addressStreet": "631 N. 39th St.",
@@ -384,7 +389,8 @@
    {
      "addressStreet": "1406 Christian St",
      "kioskId": 3086,
-     "name": "Broad & Christian"
+     "name": "Broad & Christian",
+     "hint": "NW corner by Rite Aid"
    }
  ]
 

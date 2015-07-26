@@ -23,7 +23,6 @@ import name.jugglerdave.minimalindego.model.Station;
 public class StationDetailActivity extends ActionBarActivity {
     public static final String LOG_TAG="StationDetailActivity";
 
-
     Station station = null;
 
     @Override
@@ -33,7 +32,8 @@ public class StationDetailActivity extends ActionBarActivity {
         Intent intent = getIntent();
         station = (Station) intent.getSerializableExtra(StationListActivity.EXTRA_MESSAGE_STATION_OBJECT);
         String station_name = station.getStation_name();
-        //String station_name = intent.getStringExtra(StationListActivity.EXTRA_MESSAGE_STATION_OBJECT);
+
+        //set station name and address
         TextView tv = (TextView) findViewById(R.id.stationnametextview);
         ImageView bikeIconImageView = (ImageView) findViewById(R.id.bikeIconDetailView);
         tv.setText(station_name);
@@ -52,7 +52,8 @@ public class StationDetailActivity extends ActionBarActivity {
         else if (station.getDocksAvailable() == 0)
         {
 
-            tv.setTextColor(Color.RED); }
+            tv.setTextColor(Color.RED);
+        }
         else if (station.getDocksAvailable() <= 2) {
             tv.setTextColor(Color.MAGENTA);
 
@@ -128,6 +129,7 @@ public class StationDetailActivity extends ActionBarActivity {
             Log.i(LOG_TAG, "Set Favorite = " + station.getKioskId() + " " + station.getStation_name());
             //add to favorite
             MinimalBlueBikesApplication.favoriteStationsSet.add(station.getKioskId());
+            MinimalBlueBikesApplication.favoriteStationChanged = true;
 
             //TEST - print out current JSONObject string
             JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
@@ -141,6 +143,7 @@ public class StationDetailActivity extends ActionBarActivity {
             //unset station as favorite
             Log.i(LOG_TAG, "Clear Favorite = " + station.getKioskId() + " " + station.getStation_name());
             MinimalBlueBikesApplication.favoriteStationsSet.remove(station.getKioskId());
+            MinimalBlueBikesApplication.favoriteStationChanged = true;
 //TEST - print out current JSONObject string
             JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
             Log.d(LOG_TAG, "JSON string = " + myary.toString());

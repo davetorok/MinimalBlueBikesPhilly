@@ -47,6 +47,7 @@ public class StationListActivity extends ActionBarActivity {
     private MinimalBlueBikesApplication app;
     private Menu actionMenu;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +159,17 @@ public class StationListActivity extends ActionBarActivity {
         if (savedInstanceState != null)
         {
             filter_favorites_state = savedInstanceState.getBoolean("filter_favorites_state");
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //have favorites changed?  then refill & draw; filter will remove the favorite
+        if (MinimalBlueBikesApplication.favoriteStationChanged && filter_favorites_state)
+        {
+            MinimalBlueBikesApplication.favoriteStationChanged = false;
+            sortByCurrentSortType();
         }
     }
 

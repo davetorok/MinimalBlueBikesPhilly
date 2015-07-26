@@ -9,7 +9,7 @@
     <string name="string_docks_available">Docks Available</string>
     <string name="string_dock_available">Dock Available</string>
     <string name="string_unable_load">Unable to Load Stations</string>
-    <string name="string_loading">Loading Station List...</string>
+    <string name="string_loading">Loading Station List&#8230;</string>
 
 
 
@@ -60,7 +60,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_statistics">System Statistics</string>
 
-    <string name="hello_world">Hello world!</string>
+
 
 
 </resources>

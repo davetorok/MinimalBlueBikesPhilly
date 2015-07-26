@@ -51,6 +51,9 @@ public class MinimalBlueBikesApplication extends Application {
 
     //Application  State - Favorite stations (kiosk id)
     public static HashSet<String> favoriteStationsSet = new HashSet<String>();
+    //Favorites changed flag - bad way to pass data from StationDetails to StationListActivity but I couldn't figure out how to return data from an ArrayAdatper,
+    //creating the Stationdetailactivity, but returning data back to StationListActivity.  Maybe in V2
+    public static boolean favoriteStationChanged = false;
 
 
     @Override
