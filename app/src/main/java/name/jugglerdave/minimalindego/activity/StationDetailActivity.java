@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 
+import name.jugglerdave.minimalindego.AboutDialog;
 import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
@@ -84,15 +85,15 @@ public class StationDetailActivity extends ActionBarActivity {
             bikeIconImageView.setBackgroundColor(Color.YELLOW);
         }
         else {
-
+            //Color range for bikes goes from 50% to 100% of the Indego color (2,164,255)
             float percentfull = (float) .5 + ((float) 0.5 * (float) (station.getBikesAvailable()) / (float) (station.getBikesAvailable() + station.getDocksAvailable()));
             tv.setTextColor(tv.getResources().getColor(R.color.bikes_available_text_color));
             bikeIconImageView.setBackgroundColor(Color.argb(255, (int) (percentfull * 2), (int) (percentfull * 164), (int) (percentfull * 255)));
         }
 
         tv = (TextView) findViewById(R.id.bikesavailabletextview);
-        tv.setText("Bike" + (station.getBikesAvailable() == 1 ? "" : "s") + " Available");
         tv.setText(station.getBikesAvailable() == 1 ? getString(R.string.string_bike_available) : getString(R.string.string_bikes_available));
+
 
 
         //status
@@ -131,11 +132,6 @@ public class StationDetailActivity extends ActionBarActivity {
             MinimalBlueBikesApplication.favoriteStationsSet.add(station.getKioskId());
             MinimalBlueBikesApplication.favoriteStationChanged = true;
 
-            //TEST - print out current JSONObject string
-            JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
-            Log.d(LOG_TAG, "JSON string = " + myary.toString());
-
-
 
         }
         else
@@ -144,11 +140,12 @@ public class StationDetailActivity extends ActionBarActivity {
             Log.i(LOG_TAG, "Clear Favorite = " + station.getKioskId() + " " + station.getStation_name());
             MinimalBlueBikesApplication.favoriteStationsSet.remove(station.getKioskId());
             MinimalBlueBikesApplication.favoriteStationChanged = true;
-//TEST - print out current JSONObject string
-            JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
-            Log.d(LOG_TAG, "JSON string = " + myary.toString());
-        }
 
+
+        }
+        //TEST - print out current JSONObject string
+        JSONArray myary = new JSONArray(MinimalBlueBikesApplication.favoriteStationsSet);
+        Log.d(LOG_TAG, "JSON string = " + myary.toString());
         //commit checkbox change
         saveFavoritesToSettings();
     }
@@ -166,7 +163,7 @@ public class StationDetailActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             if (id == R.id.action_settings) {
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -174,11 +171,16 @@ public class StationDetailActivity extends ActionBarActivity {
                 return true;
             }
         }
+        else if (id == R.id.action_about)
+        {
+            AboutDialog dialog = new AboutDialog(this);
+            dialog.show();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    //preferences to favorites
+    /** commit favorites preferences to storage **/
     public void saveFavoritesToSettings()  {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

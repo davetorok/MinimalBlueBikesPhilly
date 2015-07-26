@@ -24,21 +24,25 @@ public class MinimalBlueBikesApplication extends Application {
     SharedPreferences preferences = null;
 
 
-    // default is 19th & lombard station
+    // default is 19th & lombard station because I said so
+    //TODO move to resources?
     public final static String default_home_kiosk_id = "3066";
     public final static String default_position_kiosk_id = "3066";
     public final static double default_position_geo_long = -75.17348;
     public final static double default_position_geo_lat = 39.94561;
     public static final String LOG_TAG = "MinimalBlueBikesApp";
 
+    //TODO move to resources
     public final static String default_sort = "DISTANCE";
+
+
     public static final double phila_map_tilt_degrees = 9.8;
     public static final double phila_map_tilt = Math.toRadians(9.8);
     public static double tan_t = Math.tan(phila_map_tilt);
     public static double cos_t = Math.cos(phila_map_tilt);
     public static double sin_t = Math.sin(phila_map_tilt);
 
-    //following are App state - should move to an Application class
+    //following are Application-wide  state
     public static String home_station_kiosk_id = default_home_kiosk_id;
     public static double home_station_geo_long = default_position_geo_long;
     public static double home_station_geo_lat = default_position_geo_lat;
@@ -92,7 +96,7 @@ public class MinimalBlueBikesApplication extends Application {
     }
 
     /*
-    Compute air miles distance
+    Compute air miles distance.
      */
     public static double getMilesDistanceFromCurrent(Station stat) {
         float[] result_meters = new float[1];
@@ -103,9 +107,9 @@ public class MinimalBlueBikesApplication extends Application {
 
     }
 
-    /*
+    /**
     Compute Manhattan Distance / Taxi distance
-     */
+     **/
     public static double getGridMilesDistanceFromCurrent(Station stat) {
         double long_factor = 52.965585282339968661134002669607;
         double lat_factor = 69.095882522315001439677512237259;

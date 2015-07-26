@@ -72,7 +72,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         } else {
             viewHolder = (StationRowViewHolder) row.getTag();
         }
-        final Context context = this.getContext();
+
         //trying clickable
         row.setClickable(true);
         row.setFocusable(true);
@@ -184,7 +184,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         viewHolder.stationNameTextView.setText(this_station.getStation_name() + " " +
                 // rectangular grid distance
                 String.format("%.2f", MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station)) + " mi " +
-     // straight line distance
+     // straight line distance -- this will be a preference in a later version
      //          String.format("%.2f", MinimalBlueBikesApplication.getMilesDistanceFromCurrent(this_station)) + " mi " +
 
                 (this_station.getKioskPublicStatus().equals("Unavailable") ? "[UNAVAIL]" : "")
@@ -259,8 +259,5 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         };
         return filter;
     }
-    //dead code?
-    public Bitmap decodeToBitmap(byte[] decodedByte) {
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
+
 }
