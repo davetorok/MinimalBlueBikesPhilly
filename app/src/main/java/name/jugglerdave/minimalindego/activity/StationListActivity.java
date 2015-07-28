@@ -108,6 +108,7 @@ public class StationListActivity extends ActionBarActivity {
             {
                 first_time_do_read = true;
                 stats = new StationList();
+                app.setStationListModel(stats);
 
             }
             else //set station text
@@ -333,6 +334,8 @@ public class StationListActivity extends ActionBarActivity {
     /* called from async task when stationList has been read from network */
     public void refreshStationsFromAsyncTask(StationList stats)
     {
+        //stats could be empty if there was a network error
+
         StationHints stationHints = app.getStationHints();
         //inflate 'hints' in the stations
         for (Station stat : stats.stations)
@@ -348,10 +351,16 @@ public class StationListActivity extends ActionBarActivity {
             StationStatistics stationStats = new StationStatistics(stats);
             app.setStationStats(stationStats);
             TextView tv = (TextView)findViewById(R.id.stationListText);
-            SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
-            String ds = df.format(stats.refreshDateTime);
-            tv.setText( ds + ", " + stats.stations.size() + " stations");
-            stationArray = stats.stations.toArray(stationArray);
+
+            if (stats.stations.size() > 0) {
+                SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
+                String ds = df.format(stats.refreshDateTime);
+                tv.setText(ds + ", " + stats.stations.size() + " stations");
+            }
+            else {
+                tv.setText("Unable to Load Stations");
+            }
+            stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
 
             //re-sort -- this also does the refilladapter and notify data set
             sortByCurrentSortType();

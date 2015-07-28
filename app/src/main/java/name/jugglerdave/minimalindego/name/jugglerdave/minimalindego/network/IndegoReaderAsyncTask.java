@@ -33,6 +33,8 @@ public class IndegoReaderAsyncTask extends AsyncTask<Void,Integer,StationList> {
             publishProgress(100);
         } catch (Exception ex) {
             Log.e(LOG_TAG, "Can't read Indego from asynctask " + ex.getClass().getName());
+            //create empty station list
+            stats = new StationList();
             publishProgress(0);
         }
     return stats;

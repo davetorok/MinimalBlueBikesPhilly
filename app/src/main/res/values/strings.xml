@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Minimal Blue Bikes Philly</string>
     <string name="app_title_action_bar">Minimal Blue Bikes Philly</string>
+    <string name="string_versionText">v1.0</string>
 
     <string name="string_lastRefreshInitial">(No Data Read)</string>
     <string name="string_nohint">(No Hint Available)</string>
