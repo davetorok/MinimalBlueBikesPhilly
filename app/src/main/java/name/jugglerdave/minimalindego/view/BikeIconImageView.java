@@ -68,9 +68,9 @@ public class BikeIconImageView extends ImageView {
             canvas.drawRect(left, top, right, bottom, currentPaint);
             currentPaint.setStrokeWidth(5);
             currentPaint.setColor(Color.CYAN);
-            canvas.drawRect(left + 3, 30, right - 3, bottom - 3, currentPaint);
+            canvas.drawRect(left + 3, bottom-30, right - 3, bottom - 3, currentPaint);
             currentPaint.setColor(Color.YELLOW);
-            canvas.drawRect(left + 3, top + 3, right - 3, 30, currentPaint);
+            canvas.drawRect(left + 3, top + 3, right - 3, top+30, currentPaint);
            // setImageBitmap(scaledBorder);
 
         }

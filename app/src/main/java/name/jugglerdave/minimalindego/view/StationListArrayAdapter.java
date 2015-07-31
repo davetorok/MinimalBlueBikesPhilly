@@ -151,7 +151,10 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         }
 
         if (nav_arrow_orig_height < 0 || nav_arrow_orig_width < 0) {
-            Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+           Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow,options);
             nav_arrow_orig_width = orig_blue_arrow.getWidth();
             nav_arrow_orig_height = orig_blue_arrow.getHeight();
         }
@@ -168,10 +171,13 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
 
         if (MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station) > 0.05)
         {
+            int density = getContext().getResources().getDimensionPixelOffset(R.dimen.activity_vertical_margin) / 4; // TODO this is now a multiplier of 4. should change to the float multiplier
             viewHolder.bearingImageView.setImageResource(R.drawable.bearingarrow);
-            matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);
+            matrix.preScale((float) 20.0 / nav_arrow_orig_width, (float) 20.0 / nav_arrow_orig_height);  //(try smaller scaling, was 30 / 20)
             //adjust bearing to account for philly grid tilt
-            matrix.postRotate((float) MinimalBlueBikesApplication.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) MinimalBlueBikesApplication.phila_map_tilt_degrees), 15, 10);
+            //testing density multiplier
+            // should the offset be 15,15?  orig. 15,10
+            matrix.postRotate((float) MinimalBlueBikesApplication.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) MinimalBlueBikesApplication.phila_map_tilt_degrees), density*10, density*10);
 
         } else {
             // current row is the current station location
