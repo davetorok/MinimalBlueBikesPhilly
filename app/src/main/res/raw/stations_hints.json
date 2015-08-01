@@ -384,7 +384,8 @@
       {
         "addressStreet": "1901 Market St.",
         "kioskId": 3078,
-        "name": "19th & Market"
+        "name": "19th & Market",
+		"hint": "N side of Market, 100 ft from 19th St."
 	  },
    {
      "addressStreet": "1406 Christian St",

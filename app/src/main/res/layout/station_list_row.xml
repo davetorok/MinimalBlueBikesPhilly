@@ -36,7 +36,8 @@
         android:src="@drawable/bearingarrow"
         android:scaleType="fitCenter"
         android:alpha="255"
-        android:padding="4dp" />
+        android:padding="0dp"
+         />
 
     <name.jugglerdave.minimalindego.view.BikeIconImageView
             android:id="@+id/bikeIconView"
