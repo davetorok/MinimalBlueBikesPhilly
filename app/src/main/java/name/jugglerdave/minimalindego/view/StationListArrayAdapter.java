@@ -154,7 +154,7 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-           Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow,options); //todo go back to nondebug
+           Bitmap orig_blue_arrow = BitmapFactory.decodeResource(viewHolder.bearingImageView.getResources(), R.drawable.bearingarrow,options);
             nav_arrow_orig_width = orig_blue_arrow.getWidth();
             nav_arrow_orig_height = orig_blue_arrow.getHeight();
         }
@@ -175,17 +175,18 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
 
         if (MinimalBlueBikesApplication.getGridMilesDistanceFromCurrent(this_station) > 0.05)
         {
-            viewHolder.bearingImageView.setImageResource(R.drawable.bearingarrow); //todo go back to nondebug
-            matrix.preScale((float) 30.0 / nav_arrow_orig_width, (float) 30.0 / nav_arrow_orig_height);  //(try smaller scaling, was 30 / 20)
+            viewHolder.bearingImageView.setImageResource(R.drawable.bearingarrow);
+            matrix.preScale((float) 22.0 / nav_arrow_orig_width, (float) 22.0 / nav_arrow_orig_height);  //TODO scaling should be view width minus padding
             //adjust bearing to account for philly grid tilt
             //testing density multiplier
             // should the offset be 15,15?  orig. 15,10
+            // TODO get offset as (width minus padding) / 2
             matrix.postRotate((float) MinimalBlueBikesApplication.getBearingToFromCurrent(this_station) - ((float) 90.0 + (float) MinimalBlueBikesApplication.phila_map_tilt_degrees), x_offset,y_offset);
 
         } else {
             // current row is the current station location
             viewHolder.bearingImageView.setImageResource(R.drawable.currentlocationicon);
-            matrix.preScale((float) 30.0 / current_location_orig_width, (float) 30.0 / current_location_orig_height);
+            matrix.preScale((float) 22.0 / current_location_orig_width, (float) 22.0 / current_location_orig_height); //TODO scaling should be view width minus padding
 
         }
         viewHolder.bearingImageView.setImageMatrix(matrix);
