@@ -16,4 +16,12 @@
         android:entries="@array/preference_home_station_strings"
         android:entryValues="@array/preference_home_station_values"
         android:defaultValue="@string/preference_home_station_default" />
+    <ListPreference
+        android:key="pref_staleDataWarningType"
+        android:title="@string/preference_stale_data_title"
+        android:summary="@string/preference_stale_data_summary"
+        android:dialogTitle="@string/preference_stale_data_title"
+        android:entries="@array/preference_stale_data_strings"
+        android:entryValues="@array/preference_stale_data_values"
+        android:defaultValue="@string/preference_stale_data_default" />
 </PreferenceScreen>

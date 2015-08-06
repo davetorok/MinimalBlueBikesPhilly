@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="stale_data_yellow_delay_seconds">30</integer>
+    <integer name="stale_data_red_delay_seconds">60</integer>
+
+
+</resources>

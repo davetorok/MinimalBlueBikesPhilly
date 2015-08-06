@@ -31,7 +31,8 @@
       {
         "addressStreet": "3318 Market St.",
         "kioskId": 3009,
-        "name": "33rd & Market"
+        "name": "33rd & Market",
+        "hint": "NE Corner"
       },
       {
         "addressStreet": "1483 Spruce St.",

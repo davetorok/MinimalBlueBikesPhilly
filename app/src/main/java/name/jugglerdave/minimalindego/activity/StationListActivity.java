@@ -2,6 +2,7 @@ package name.jugglerdave.minimalindego.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -77,6 +78,20 @@ public class StationListActivity extends ActionBarActivity {
 
         }
 
+        //get preferences for warning/error delay
+        if (preferences.contains("pref_staleDataWarningType"))
+        {
+            //set it
+            String stale = preferences.getString("pref_staleDataWarningType", ""+app.getStaleDataYellowSeconds());
+            int seconds = stale.equals("OFF") ? 0 : Integer.parseInt(stale);
+            app.setStaleDataYellowSeconds(seconds);
+            Log.d(LOG_TAG, "set yellow warning seconds to " + seconds);
+            app.setStaleDataRedSeconds(seconds * 2);
+            Log.d(LOG_TAG, "set red warning seconds to " + seconds*2);
+
+
+        }
+
         //get preferences for home station
         if (preferences.contains("home_station_kiosk_id")) {
             MinimalBlueBikesApplication.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", MinimalBlueBikesApplication.default_home_kiosk_id));
@@ -117,6 +132,9 @@ public class StationListActivity extends ActionBarActivity {
                 SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");
                 String ds = df.format(stats.refreshDateTime);
                 tv.setText( ds + ", " + stats.stations.size() + " stations");
+
+                //warning coolors
+                checkStaleDataAndSetColor();
             }
             StationStatistics stationStats = new StationStatistics(stats);
             app.setStationStats(stationStats);
@@ -171,6 +189,36 @@ public class StationListActivity extends ActionBarActivity {
         {
             MinimalBlueBikesApplication.favoriteStationChanged = false;
             sortByCurrentSortType();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // check for stale data
+        TextView tv = (TextView)findViewById(R.id.stationListText);
+        StationList stats = app.getStationListModel();
+        if (stats != null)
+        {
+        checkStaleDataAndSetColor();
+        }
+    }
+
+    void checkStaleDataAndSetColor() {
+        StationList stats = app.getStationListModel();
+        TextView tv = (TextView)findViewById(R.id.stationListText);
+
+        if (tv == null || stats == null) {
+            Log.e(LOG_TAG, "textview or stationlist is null in checkstaledata");
+            return;
+        }
+        if (stats != null) {
+            //warning coolors
+            if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataRedSeconds() * 1000)) {
+                tv.setBackgroundColor(Color.RED);
+            } else if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataYellowSeconds() * 1000)) {
+                tv.setBackgroundColor(Color.YELLOW);
+            } else tv.setBackgroundColor(Color.WHITE);
         }
     }
 
@@ -238,31 +286,31 @@ public class StationListActivity extends ActionBarActivity {
         else if(id == R.id.action_sort_name)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("NAME");
-            sortByName();
+            sortByCurrentSortType();
             return true;
         }
         else if(id == R.id.action_sort_bikes)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("BIKES");
-            sortByBikes();
+            sortByCurrentSortType();
             return true;
         }
         else if(id == R.id.action_sort_docks)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("DOCKS");
-            sortByDocks();
+            sortByCurrentSortType();
             return true;
         }
         else if(id == R.id.action_sort_distance)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("DISTANCE");
-            sortByDistance();
+            sortByCurrentSortType();
             return true;
         }
         else if(id == R.id.action_sort_direction)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("DIRECTION");
-            sortByDirection();
+            sortByCurrentSortType();
             return true;
         }
         else if (id == R.id.action_filter_favorites)
@@ -282,6 +330,7 @@ public class StationListActivity extends ActionBarActivity {
 
             }
             setFavoritesActionBarIcon();
+            checkStaleDataAndSetColor();
         }
         else if (id == R.id.action_about)
         {
@@ -360,6 +409,10 @@ public class StationListActivity extends ActionBarActivity {
             else {
                 tv.setText("Unable to Load Stations");
             }
+
+            // reset stale data color
+            tv.setBackgroundColor(Color.WHITE);
+
             stationArray = stats.stations.toArray(new Station[stats.stations.size()]);
 
             //re-sort -- this also does the refilladapter and notify data set
@@ -429,7 +482,7 @@ public class StationListActivity extends ActionBarActivity {
             default:
                 sortByDistance();
         }
-
+        checkStaleDataAndSetColor();
 
     }
 
@@ -439,6 +492,7 @@ public class StationListActivity extends ActionBarActivity {
 
         Arrays.sort(stationArray, new NameSorter());
         refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
 
 
     }

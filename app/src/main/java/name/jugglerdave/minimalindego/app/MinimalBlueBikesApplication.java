@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.HashSet;
 
+import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.model.Station;
 import name.jugglerdave.minimalindego.model.StationHints;
 import name.jugglerdave.minimalindego.model.StationList;
@@ -59,10 +60,18 @@ public class MinimalBlueBikesApplication extends Application {
     //creating the Stationdetailactivity, but returning data back to StationListActivity.  Maybe in V2
     public static boolean favoriteStationChanged = false;
 
+    //Application Preference - stale data warning - SECONDS
+    public  int staleDataYellowSeconds = 30;
+    public  int staleDataRedSeconds = 60;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //need to set the defaults
+        staleDataYellowSeconds = getResources().getInteger(R.integer.stale_data_yellow_delay_seconds);
+        staleDataRedSeconds = getResources().getInteger(R.integer.stale_data_red_delay_seconds);
 
         //Read the station hints
         stationHints = new StationHints();
@@ -219,6 +228,22 @@ public class MinimalBlueBikesApplication extends Application {
         spe2.putFloat("home_station_geo_long", (float) MinimalBlueBikesApplication.getHome_station_geo_long());
         spe2.putFloat("home_station_geo_lat", (float) MinimalBlueBikesApplication.getHome_station_geo_lat());
         spe2.commit();
+    }
+
+    public int getStaleDataYellowSeconds() {
+        return staleDataYellowSeconds;
+    }
+
+    public void setStaleDataYellowSeconds(int staleDataYellowSeconds) {
+        this.staleDataYellowSeconds = staleDataYellowSeconds;
+    }
+
+    public int getStaleDataRedSeconds() {
+        return staleDataRedSeconds;
+    }
+
+    public void setStaleDataRedSeconds(int staleDataRedSeconds) {
+        this.staleDataRedSeconds = staleDataRedSeconds;
     }
 }
 
