@@ -213,7 +213,7 @@ public class StationListActivity extends ActionBarActivity {
             return;
         }
         if (stats != null) {
-            //warning coolors
+            //warning colors
             if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataRedSeconds() * 1000)) {
                 tv.setBackgroundColor(Color.RED);
             } else if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataYellowSeconds() * 1000)) {

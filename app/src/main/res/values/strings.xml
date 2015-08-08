@@ -48,11 +48,18 @@
     <string name="preference_stale_data_title">Stale Data Warning Time</string>
     <string name="preference_stale_data_default">2</string>
     <string name="preference_stale_data_summary">Time before stale station data warning (yellow); 2x time before alert (red).</string>
-    <string-array name="preference_stale_data_values" >
+    <string-array name="preference_stale_data_values">
         <item>OFF</item>
         <item>60</item>
         <item>120</item>
         <item>300</item>
+        <item>600</item>
+    </string-array>
+    <string-array name="preference_stale_data_values_debug" >
+        <item>OFF</item>
+        <item>10</item>
+        <item>20</item>
+        <item>60</item>
         <item>600</item>
     </string-array>
     <string-array name="preference_stale_data_strings" >

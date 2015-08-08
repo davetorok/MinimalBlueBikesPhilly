@@ -3,6 +3,7 @@ package name.jugglerdave.minimalindego.app;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -17,7 +18,7 @@ import name.jugglerdave.minimalindego.model.StationStatistics;
 /**
  * Created by dtorok on 5/23/2015.
  */
-public class MinimalBlueBikesApplication extends Application {
+public class MinimalBlueBikesApplication extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     //application-wide model storage
     private StationList stationListModel = null;
     private StationStatistics stationStats;
@@ -78,6 +79,8 @@ public class MinimalBlueBikesApplication extends Application {
         stationHints.readHintsJson(getApplicationContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        //register preferences listener
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     public static double getCurrent_position_geo_lat() {
@@ -244,6 +247,18 @@ public class MinimalBlueBikesApplication extends Application {
 
     public void setStaleDataRedSeconds(int staleDataRedSeconds) {
         this.staleDataRedSeconds = staleDataRedSeconds;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("pref_staleDataWarningType")) {
+            String stale = sharedPreferences.getString(key, "UNKNOWN");
+            int seconds = stale.equals("OFF") ? 0 : Integer.parseInt(stale);
+            setStaleDataYellowSeconds(seconds);
+            Log.d(LOG_TAG, "set yellow warning seconds to " + seconds);
+            setStaleDataRedSeconds(seconds * 2);
+            Log.d(LOG_TAG, "set red warning seconds to " + seconds * 2);
+        }
     }
 }
 

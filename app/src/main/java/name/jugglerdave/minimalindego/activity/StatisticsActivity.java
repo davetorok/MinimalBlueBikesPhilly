@@ -1,9 +1,11 @@
 package name.jugglerdave.minimalindego.activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -15,13 +17,18 @@ import java.text.SimpleDateFormat;
 import name.jugglerdave.minimalindego.R;
 import name.jugglerdave.minimalindego.app.MinimalBlueBikesApplication;
 import name.jugglerdave.minimalindego.model.Station;
+import name.jugglerdave.minimalindego.model.StationList;
 import name.jugglerdave.minimalindego.model.StationStatistics;
 
 public class StatisticsActivity extends ActionBarActivity {
     StationStatistics stats;
+    MinimalBlueBikesApplication app;
+    public static final String LOG_TAG="StatisticsActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = (MinimalBlueBikesApplication)getApplication();
         setContentView(R.layout.activity_statistics);
 
             Intent intent = getIntent();
@@ -51,9 +58,28 @@ public class StatisticsActivity extends ActionBarActivity {
             String ds = df.format(stats.refreshDateTime);
             tv.setText( "Data as of: " + ds );
 
+        checkStaleDataAndSetColor();
 
 
     }
+
+    void checkStaleDataAndSetColor() {
+        TextView tv = (TextView)findViewById(R.id.statsrefreshdatetextview);
+
+        if (tv == null || stats == null) {
+            Log.e(LOG_TAG, "textview or stationlist is null in checkstaledata");
+            return;
+        }
+        if (stats != null) {
+            //warning colors
+            if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataRedSeconds() * 1000)) {
+                tv.setBackgroundColor(Color.RED);
+            } else if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataYellowSeconds() * 1000)) {
+                tv.setBackgroundColor(Color.YELLOW);
+            } else tv.setBackgroundColor(Color.WHITE);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
