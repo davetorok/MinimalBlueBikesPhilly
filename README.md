@@ -33,9 +33,13 @@ This will overestimate if there is a diagonal street (Ben Franklin Parkway, etc)
 
 * **Direction Arrow** is also aligned to the city grid, not the compass.
 
+* **Manual and Auto Refresh** By default, By default, data will "Auto Refresh" every 5 minutes.  Auto Refresh can be turned off or set to 1,2,5,10,30 minutes in the Settings.  Data can be manually refreshed at any time with the menu / action bar item.
+* **Stale Data Warnings** By default the last refresh time text will turn Yellow after 3 minutes and Red after 5 minutes.  The Warning time can be turned off or changed to 1,3,5,10 minutes in the Settings
+
 ## Helpful Hints
 * Use the "Current Station" feature (long press a station)to find stations near your destination, or to find available bikes or docks near a desired station if full
 * The Settings screen allows for selecting the default sort type (distance is recommended) and whether the Home or Current station is set at app startup.
+
 
 ## Acknowledgements
 

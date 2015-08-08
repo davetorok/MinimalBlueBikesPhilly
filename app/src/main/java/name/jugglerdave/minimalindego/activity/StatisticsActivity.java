@@ -63,6 +63,7 @@ public class StatisticsActivity extends ActionBarActivity {
 
     }
 
+    //could refactor if the stationlist one could take a dateprovider thing instead of a StationList vs. StationStatistics
     void checkStaleDataAndSetColor() {
         TextView tv = (TextView)findViewById(R.id.statsrefreshdatetextview);
 

@@ -7,6 +7,9 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.HashSet;
 
 import name.jugglerdave.minimalindego.R;
@@ -62,17 +65,15 @@ public class MinimalBlueBikesApplication extends Application implements SharedPr
     public static boolean favoriteStationChanged = false;
 
     //Application Preference - stale data warning - SECONDS
-    public  int staleDataYellowSeconds = 30;
-    public  int staleDataRedSeconds = 60;
+    public  int staleDataYellowSeconds = 120;
+    public  int staleDataRedSeconds = 240;
+    //Application Preference - stale data refresh - seconds.  DEFAULT IS....
+    public int staleDataRefreshSeconds = 300;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        //need to set the defaults
-        staleDataYellowSeconds = getResources().getInteger(R.integer.stale_data_yellow_delay_seconds);
-        staleDataRedSeconds = getResources().getInteger(R.integer.stale_data_red_delay_seconds);
 
         //Read the station hints
         stationHints = new StationHints();
@@ -150,6 +151,85 @@ public class MinimalBlueBikesApplication extends Application implements SharedPr
         Location.distanceBetween(stat.getGeo_lat(), stat.getGeo_long(), current_position_geo_lat, current_position_geo_long, result_meters);
 
         return result_meters == null ? -1 : result_meters[1];
+
+    }
+
+
+    public void readPreferencesAndSetAppData(){
+        //get preferences for startup sort type
+        if (preferences.contains("pref_defaultSortType"))
+        {
+            MinimalBlueBikesApplication.setCurrent_station_list_sort(preferences.getString("pref_defaultSortType", MinimalBlueBikesApplication.default_sort));
+            Log.e(LOG_TAG, "set current sort to " + MinimalBlueBikesApplication.getCurrent_station_list_sort());
+
+        }
+
+        //get preferences for warning/error delay
+        if (preferences.contains("pref_staleDataWarningType"))
+        {
+            //set it
+            String stale = preferences.getString("pref_staleDataWarningType", ""+this.getStaleDataYellowSeconds());
+            int seconds = stale.equals("OFF") ? 0 : Integer.parseInt(stale);
+            this.setStaleDataYellowSeconds(seconds);
+            Log.d(LOG_TAG, "set yellow warning seconds to " + seconds);
+            this.setStaleDataRedSeconds(seconds * 2);
+            Log.d(LOG_TAG, "set red warning seconds to " + seconds * 2);
+
+
+        }
+
+        if (preferences.contains("pref_staleRefreshType")) {
+            String stale = preferences.getString("pref_staleRefreshType", "" + this.getStaleDataRefreshSeconds());
+            int seconds = (stale.equals("OFF") || stale.equals("UNKNOWN")) ? 0 : Integer.parseInt(stale);
+            setStaleDataRefreshSeconds(seconds);
+            Log.d(LOG_TAG, "set refresh secondsto " + seconds);
+        }
+
+        //get preferences for home station
+        if (preferences.contains("home_station_kiosk_id")) {
+            MinimalBlueBikesApplication.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", MinimalBlueBikesApplication.default_home_kiosk_id));
+            MinimalBlueBikesApplication.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
+            MinimalBlueBikesApplication.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
+        }
+        //get preferences for current position kiosk
+        if (preferences.contains("current_position_kiosk_id")) {
+            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(preferences.getString("current_position_kiosk_id", MinimalBlueBikesApplication.default_position_kiosk_id));
+            MinimalBlueBikesApplication.setCurrent_position_geo_long(preferences.getFloat("current_position_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
+            MinimalBlueBikesApplication.setCurrent_position_geo_lat(preferences.getFloat("current_position_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
+        }
+        //get preference to force 'home'
+        if (preferences.getString("pref_startupStationType", "HOME").equalsIgnoreCase("HOME"))
+        {
+            //copy home to current
+            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(MinimalBlueBikesApplication.getHome_station_kiosk_id());
+            MinimalBlueBikesApplication.setCurrent_position_geo_long(MinimalBlueBikesApplication.getHome_station_geo_long());
+            MinimalBlueBikesApplication.setCurrent_position_geo_lat(MinimalBlueBikesApplication.getHome_station_geo_lat());
+        }
+
+    }
+
+    //preferences to favorites
+    public void readFavoritesFromSettings()  {
+        MinimalBlueBikesApplication.favoriteStationsSet.clear();
+        if (preferences.contains("favorite_stations_json_string")) {
+
+            String prefstring = preferences.getString("favorite_stations_json_string",null);
+            if (prefstring != null)
+            {
+                try {
+                    JSONArray myary = new JSONArray(prefstring);
+                    for (int i = 0; i < myary.length(); i++)
+                    {
+                        MinimalBlueBikesApplication.favoriteStationsSet.add(myary.getString(i));
+                    }
+
+                } catch (JSONException ex) {
+                    //can't parse favorites string
+                    Log.d(LOG_TAG,"Can't read favorites String JSON");
+
+                }
+            }
+        }
 
     }
 
@@ -249,15 +329,30 @@ public class MinimalBlueBikesApplication extends Application implements SharedPr
         this.staleDataRedSeconds = staleDataRedSeconds;
     }
 
+    public int getStaleDataRefreshSeconds() {
+        return staleDataRefreshSeconds;
+    }
+
+    public void setStaleDataRefreshSeconds(int staleDataRefreshSeconds) {
+        this.staleDataRefreshSeconds = staleDataRefreshSeconds;
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_staleDataWarningType")) {
             String stale = sharedPreferences.getString(key, "UNKNOWN");
-            int seconds = stale.equals("OFF") ? 0 : Integer.parseInt(stale);
+            int seconds =(stale.equals("OFF")||stale.equals("UNKNOWN"))? 0 : Integer.parseInt(stale);
             setStaleDataYellowSeconds(seconds);
             Log.d(LOG_TAG, "set yellow warning seconds to " + seconds);
             setStaleDataRedSeconds(seconds * 2);
             Log.d(LOG_TAG, "set red warning seconds to " + seconds * 2);
+        }
+        else if (key.equals("pref_staleRefreshType")){
+            String stale = sharedPreferences.getString(key, "UNKNOWN");
+            int seconds = (stale.equals("OFF")||stale.equals("UNKNOWN")) ? 0 : Integer.parseInt(stale);
+            setStaleDataRefreshSeconds(seconds);
+            Log.d(LOG_TAG, "set refresh secondsto " + seconds);
+
         }
     }
 }

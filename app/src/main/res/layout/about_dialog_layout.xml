@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="v1.0a"
+        android:text="v1.1"
         android:id="@+id/versionnum"
         android:layout_below="@+id/appname"
         android:layout_toRightOf="@+id/versionlabel"

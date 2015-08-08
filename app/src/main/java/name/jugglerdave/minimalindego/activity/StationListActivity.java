@@ -70,51 +70,11 @@ public class StationListActivity extends ActionBarActivity {
         boolean first_time_do_read = false; //new application creation?  read stations
 
 
-        //get preferences for startup sort type
-        if (preferences.contains("pref_defaultSortType"))
-        {
-            MinimalBlueBikesApplication.setCurrent_station_list_sort(preferences.getString("pref_defaultSortType", MinimalBlueBikesApplication.default_sort));
-            Log.e(LOG_TAG, "set current sort to " + MinimalBlueBikesApplication.getCurrent_station_list_sort());
-
-        }
-
-        //get preferences for warning/error delay
-        if (preferences.contains("pref_staleDataWarningType"))
-        {
-            //set it
-            String stale = preferences.getString("pref_staleDataWarningType", ""+app.getStaleDataYellowSeconds());
-            int seconds = stale.equals("OFF") ? 0 : Integer.parseInt(stale);
-            app.setStaleDataYellowSeconds(seconds);
-            Log.d(LOG_TAG, "set yellow warning seconds to " + seconds);
-            app.setStaleDataRedSeconds(seconds * 2);
-            Log.d(LOG_TAG, "set red warning seconds to " + seconds*2);
-
-
-        }
-
-        //get preferences for home station
-        if (preferences.contains("home_station_kiosk_id")) {
-            MinimalBlueBikesApplication.setHome_station_kiosk_id(preferences.getString("home_station_kiosk_id", MinimalBlueBikesApplication.default_home_kiosk_id));
-            MinimalBlueBikesApplication.setHome_station_geo_long(preferences.getFloat("home_station_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
-            MinimalBlueBikesApplication.setHome_station_geo_lat(preferences.getFloat("home_station_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
-        }
-        //get preferences for current position kiosk
-        if (preferences.contains("current_position_kiosk_id")) {
-            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(preferences.getString("current_position_kiosk_id", MinimalBlueBikesApplication.default_position_kiosk_id));
-            MinimalBlueBikesApplication.setCurrent_position_geo_long(preferences.getFloat("current_position_geo_long", (float) MinimalBlueBikesApplication.default_position_geo_long));
-            MinimalBlueBikesApplication.setCurrent_position_geo_lat(preferences.getFloat("current_position_geo_lat", (float) MinimalBlueBikesApplication.default_position_geo_lat));
-        }
-        //get preference to force 'home'
-        if (preferences.getString("pref_startupStationType", "HOME").equalsIgnoreCase("HOME"))
-        {
-            //copy home to current
-            MinimalBlueBikesApplication.setCurrent_position_kiosk_id(MinimalBlueBikesApplication.getHome_station_kiosk_id());
-            MinimalBlueBikesApplication.setCurrent_position_geo_long(MinimalBlueBikesApplication.getHome_station_geo_long());
-            MinimalBlueBikesApplication.setCurrent_position_geo_lat(MinimalBlueBikesApplication.getHome_station_geo_lat());
-        }
+        //read preferences into the app
+        app.readPreferencesAndSetAppData();
 
         //read favorites
-        readFavoritesFromSettings();
+        app.readFavoritesFromSettings();
 
         try {
 
@@ -133,7 +93,7 @@ public class StationListActivity extends ActionBarActivity {
                 String ds = df.format(stats.refreshDateTime);
                 tv.setText( ds + ", " + stats.stations.size() + " stations");
 
-                //warning coolors
+                //warning colors
                 checkStaleDataAndSetColor();
             }
             StationStatistics stationStats = new StationStatistics(stats);
@@ -156,7 +116,7 @@ public class StationListActivity extends ActionBarActivity {
             });
 
             //Start the async activity, if this is the first call.
-            if (first_time_do_read) ( new IndegoReaderAsyncTask(this,stationlistadapter)).execute();
+            if (first_time_do_read || isDataStaleForRefresh(stats)) { refreshStations();}
 
 
         } catch (Exception ex) {
@@ -201,12 +161,18 @@ public class StationListActivity extends ActionBarActivity {
         if (stats != null)
         {
         checkStaleDataAndSetColor();
+        if (isDataStaleForRefresh(stats)) refreshStations();
         }
     }
 
     void checkStaleDataAndSetColor() {
         StationList stats = app.getStationListModel();
-        TextView tv = (TextView)findViewById(R.id.stationListText);
+        TextView tv = (TextView) findViewById(R.id.stationListText);
+        checkStaleDataAndSetColor(stats, tv);
+    }
+
+    //move to view helper activities?
+    public  void checkStaleDataAndSetColor( StationList stats, TextView tv) {
 
         if (tv == null || stats == null) {
             Log.e(LOG_TAG, "textview or stationlist is null in checkstaledata");
@@ -220,6 +186,18 @@ public class StationListActivity extends ActionBarActivity {
                 tv.setBackgroundColor(Color.YELLOW);
             } else tv.setBackgroundColor(Color.WHITE);
         }
+    }
+
+    public boolean isDataStaleForRefresh(StationList stats)
+    {
+        //is preferences set?
+        if (app.getStaleDataRefreshSeconds() <= 0) return false;
+        if (stats == null) return false;
+        if (System.currentTimeMillis() - stats.refreshDateTime.getTime() > (app.getStaleDataRefreshSeconds() * 1000)) {
+            return true;
+        }
+        else return false;
+
     }
 
     @Override
@@ -436,30 +414,7 @@ public class StationListActivity extends ActionBarActivity {
         }
     }
 
-    //preferences to favorites
-    public void readFavoritesFromSettings()  {
-        MinimalBlueBikesApplication.favoriteStationsSet.clear();
-        if (preferences.contains("favorite_stations_json_string")) {
 
-            String prefstring = preferences.getString("favorite_stations_json_string",null);
-            if (prefstring != null)
-            {
-                try {
-                    JSONArray myary = new JSONArray(prefstring);
-                    for (int i = 0; i < myary.length(); i++)
-                    {
-                        MinimalBlueBikesApplication.favoriteStationsSet.add(myary.getString(i));
-                    }
-
-                } catch (JSONException ex) {
-                    //can't parse favorites string
-                    Log.d(LOG_TAG,"Can't read favorites String JSON");
-
-                }
-            }
-        }
-
-    }
 
     public void sortByCurrentSortType()
     {
