@@ -32,7 +32,7 @@
         "addressStreet": "3318 Market St.",
         "kioskId": 3009,
         "name": "33rd & Market",
-        "hint": "NE Corner"
+        "hint": "NW Corner"
       },
       {
         "addressStreet": "1483 Spruce St.",
@@ -118,7 +118,8 @@
       {
         "addressStreet": "598 S. 43rd St.",
         "kioskId": 3024,
-        "name": "43rd & Chester, Clark Park"
+        "name": "43rd & Chester, Clark Park",
+		"hint": "SW Corner"
       },
       {
         "addressStreet": "1084 Washington Ave.",
@@ -134,7 +135,8 @@
       {
         "addressStreet": "3984 Market St.",
         "kioskId": 3027,
-        "name": "40th Street Station, MFL"
+        "name": "40th Street Station, MFL",
+		"hint": "SE Corner"
       },
       {
         "addressStreet": "404 Bainbridge St.",
@@ -182,12 +184,14 @@
       {
         "addressStreet": "1321 Arch St.",
         "kioskId": 3037,
-        "name": "Pennsylvania Convention Center"
+        "name": "Pennsylvania Convention Center",
+		"hint": "NW Corner 13th/Arch"
       },
       {
         "addressStreet": "3499 Civic Center Blvd.",
         "kioskId": 3038,
-        "name": "The Children's Hospital of Philadelphia (CHOP)"
+        "name": "The Children's Hospital of Philadelphia (CHOP)",
+		"hint": "Behind Fence, SW Corner at Service Drive, Seashore Pavillion"
       },
       {
         "addressStreet": "922 N. Broad St.",
@@ -197,7 +201,8 @@
       {
         "addressStreet": "1684 Spring Garden St.",
         "kioskId": 3040,
-        "name": "17th & Spring Garden, Community College of Philadelphia"
+        "name": "17th & Spring Garden, Community College of Philadelphia",
+		"hint": "SE Corner"
       },
       {
         "addressStreet": "1176 Leopard Ave.",
@@ -283,12 +288,14 @@
       {
         "addressStreet": "1940 Fairmount Ave.",
         "kioskId": 3058,
-        "name": "20th & Fairmount"
+        "name": "20th & Fairmount",
+		"hint": "SE Corner, Rite Aid"
       },
       {
         "addressStreet": "1415 Spring Garden St.",
         "kioskId": 3059,
-        "name": "Spring Garden Station, BSL"
+        "name": "Spring Garden Station, BSL",
+		"hint": "NW Corner"
       },
       {
         "addressStreet": "302 N. 19th St.",
@@ -333,7 +340,8 @@
       {
         "addressStreet": "631 N. 39th St.",
         "kioskId": 3067,
-        "name": "39th & Mt. Vernon, Mantua Haverford Community Center"
+        "name": "39th & Mt. Vernon, Mantua Haverford Community Center",
+		"hint": "E Side 39th, close to Wallace St."
       },
       {
         "addressStreet": "1201 S. Broad St.",
@@ -354,7 +362,8 @@
       {
         "addressStreet": "3170 Baring St.",
         "kioskId": 3071,
-        "name": "32nd & Baring, Drexel Park"
+        "name": "32nd & Baring, Drexel Park",
+		"hint": "NE Corner"
       },
       {
         "addressStreet": "925 S. Front St.",
@@ -393,6 +402,14 @@
      "kioskId": 3086,
      "name": "Broad & Christian",
      "hint": "NW corner by Rite Aid"
+   },
+
+   {
+
+        "addressStreet": "3500 Spring Garden",
+        "kioskId": 3035,
+        "name": "Dornsife Center",
+		"hint": "N side, closer to 36th St"
    }
  ]
 
