@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26"
 
     defaultConfig {
         applicationId "name.jugglerdave.minimalindego"
-        minSdkVersion 10
-        targetSdkVersion 22
-        versionCode 3
-        versionName "v1.1"
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 4
+        versionName "v1.2"
     }
     buildTypes {
         release {
@@ -31,6 +31,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:support-v4:26.+'
 }

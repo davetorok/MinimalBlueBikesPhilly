@@ -35,9 +35,9 @@ public class StatisticsActivity extends ActionBarActivity {
             stats = (StationStatistics) intent.getSerializableExtra(StationListActivity.EXTRA_MESSAGE_STATISTICS_OBJECT);
 
         TextView tv = (TextView)findViewById(R.id.statsnumtotalbikesavailable);
-        tv.setText(""+stats.getTotal_bikes());
+        tv.setText("" + stats.getTotal_bikes());
         tv = (TextView)findViewById(R.id.statsnumactivedocksavailable);
-        tv.setText(""+stats.getTotal_docks_available());
+        tv.setText("" + stats.getTotal_docks_available());
         tv = (TextView)findViewById(R.id.statsnumactivestations);
         tv.setText(""+stats.getTotal_stations_active());
         tv = (TextView)findViewById(R.id.statsnuminactivestations);
@@ -52,6 +52,11 @@ public class StatisticsActivity extends ActionBarActivity {
         tv.setText(""+stats.getTotal_stations_empty());
         tv = (TextView)findViewById(R.id.statsnuminactivedocks);
         tv.setText(""+stats.getTotal_inactive_docks());
+        //ebikes
+        tv = (TextView)findViewById(R.id.statsnumtotalebikesavailable);
+        tv.setText(""+stats.getTotal_electric_bikes());
+        tv = (TextView)findViewById(R.id.statsnumebikesstations);
+        tv.setText(""+stats.getTotal_stations_with_electric_bikes());
 
          tv = (TextView)findViewById(R.id.statsrefreshdatetextview);
             SimpleDateFormat df = new SimpleDateFormat("EEE d-MMM-yyyy HH:mm:ss");

@@ -29,7 +29,9 @@ import name.jugglerdave.minimalindego.model.StationList;
  */
 public class IndegoAPIReader {
 
-    static String indegoAPIURL = "https://api.phila.gov/bike-share-stations/v1";
+    //static String indegoAPIURL = "https://api.phila.gov/bike-share-stations/v1";
+    //update to new URL?
+    static String indegoAPIURL = "https://www.rideindego.com/stations/json/";
     public static final String LOG_TAG="IndegoAPIReader";
     public static StationList readStationList() throws Exception
     {
@@ -78,12 +80,17 @@ public class IndegoAPIReader {
                     stat.setGeo_long(p.getPosition().getLongitude());
                     stat.setStation_name(station.getProperties().getString("name"));
                     stat.setBikesAvailable(station.getProperties().getInt("bikesAvailable"));
+
                     stat.setDocksAvailable(station.getProperties().getInt("docksAvailable"));
                     stat.setAddressStreet(station.getProperties().getString("addressStreet"));
                     stat.setKioskPublicStatus(station.getProperties().getString("kioskPublicStatus"));
                     stat.setKioskId(station.getProperties().getString("kioskId"));
                     stat.setTotalDocks(station.getProperties().getInt("totalDocks"));
                     stat.setElectricBikesAvailable(station.getProperties().getInt("electricBikesAvailable"));
+
+                    //DEBUG TO TRY E BIKES
+                    //if (stat.getBikesAvailable() > 10) stat.setElectricBikesAvailable(2);
+
                     //add station to stationlist
                     statlist.stations.add(stat);
                 }

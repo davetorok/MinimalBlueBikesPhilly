@@ -105,6 +105,10 @@ public class StationDetailActivity extends ActionBarActivity {
         tv = (TextView) findViewById(R.id.bikesavailabletextview);
         tv.setText(station.getBikesAvailable() == 1 ? getString(R.string.string_bike_available) : getString(R.string.string_bikes_available));
 
+        //e-Bikes available
+        tv = (TextView)findViewById(R.id.ebikesavailablenumtextview);
+        tv.setText(""+station.getElectricBikesAvailable());
+
         tv = (TextView) findViewById(R.id.ebikesavailabletextview);
         tv.setText(station.getElectricBikesAvailable() == 1 ? getString(R.string.string_ebike_available) : getString(R.string.string_ebikes_available));
 

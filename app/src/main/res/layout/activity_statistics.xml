@@ -36,6 +36,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Total E-Bikes Available"
+        android:id="@+id/statstotalebikesavailabletextview"
+        android:layout_gravity="left"
+        android:layout_toEndOf="@+id/statsnumtotalebikesavailable"
+        android:layout_toRightOf="@+id/statsnumtotalebikesavailable"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignTop="@+id/statsnumtotalebikesavailable" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="325"
         android:ems="2"
         android:maxEms="3"
@@ -51,7 +63,25 @@
         android:background="#ff3cd2ff"
         android:layout_marginTop="4dp"
         android:paddingRight="2dp" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="333"
+        android:ems="2"
+        android:maxEms="3"
+        android:id="@+id/statsnumtotalebikesavailable"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
+        android:layout_below="@id/statstotalbikesavailabletextview"
+        android:textAlignment="viewEnd"
+        android:layout_gravity="right"
+        android:layout_alignParentLeft="true"
+        android:gravity="right"
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="4dp"
+        android:background="#ffffa500"
+        android:paddingRight="2dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +90,7 @@
         android:id="@+id/statsactivedockstextview"
         android:textAlignment="gravity"
         android:layout_gravity="left"
-        android:layout_below="@+id/statstotalbikesavailabletextview"
+        android:layout_below="@+id/statstotalebikesavailabletextview"
         android:layout_toRightOf="@+id/statsnumactivedocksavailable"
         android:layout_toEndOf="@+id/statsnumactivedocksavailable"
         android:layout_marginLeft="20dp"
@@ -75,7 +105,7 @@
         android:id="@+id/statsnumactivedocksavailable"
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="false"
-        android:layout_below="@id/statsnumtotalbikesavailable"
+        android:layout_below="@id/statsnumtotalebikesavailable"
         android:textAlignment="viewEnd"
         android:layout_gravity="right"
         android:layout_alignParentLeft="true"
@@ -185,6 +215,36 @@
         android:gravity="right"
         android:background="#ffadadad"
         android:paddingRight="2dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Stations with E-Bikes"
+        android:id="@+id/statsebikesstations"
+        android:textAlignment="gravity"
+        android:layout_gravity="left"
+        android:layout_below="@+id/statsinactivestations"
+        android:layout_toRightOf="@+id/statsnumebikesstations"
+        android:layout_toEndOf="@+id/statsnumebikesstations"
+        android:layout_marginLeft="20dp"
+        android:layout_alignTop="@+id/statsnumebikesstations" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="385"
+        android:ems="2"
+        android:maxEms="3"
+        android:id="@+id/statsnumebikesstations"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
+        android:layout_below="@id/statsnuminactivestations"
+        android:textAlignment="viewEnd"
+        android:layout_gravity="right"
+        android:layout_alignParentLeft="true"
+        android:gravity="right"
+        android:background="#ffffa500"
+        android:paddingRight="2dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -195,7 +255,7 @@
         android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/statsnuminactivestations"
+        android:layout_below="@+id/statsnumebikesstations"
         android:layout_marginTop="20dp" />
     <TextView
         android:layout_width="wrap_content"
