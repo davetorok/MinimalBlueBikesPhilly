@@ -14,11 +14,20 @@ public class Station implements Serializable {
     String addressStreet;
     int docksAvailable;
     int bikesAvailable;
+    int electricBikesAvailable; //add electric bike count
     int totalDocks;
     double geo_lat;
     double geo_long;
 
     String station_hint; //added for MinimalBlueBikes, not from API
+
+    public int getElectricBikesAvailable() {
+        return electricBikesAvailable;
+    }
+
+    public void setElectricBikesAvailable(int electricBikesAvailable) {
+        this.electricBikesAvailable = electricBikesAvailable;
+    }
 
     public String getKioskId() {
         return kioskId;

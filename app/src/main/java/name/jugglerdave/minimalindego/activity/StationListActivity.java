@@ -273,6 +273,12 @@ public class StationListActivity extends ActionBarActivity {
             sortByCurrentSortType();
             return true;
         }
+        else if(id == R.id.action_sort_ebikes)
+        {
+            MinimalBlueBikesApplication.setCurrent_station_list_sort("EBIKES");
+            sortByCurrentSortType();
+            return true;
+        }
         else if(id == R.id.action_sort_docks)
         {
             MinimalBlueBikesApplication.setCurrent_station_list_sort("DOCKS");
@@ -434,6 +440,9 @@ public class StationListActivity extends ActionBarActivity {
             case "DIRECTION":
                 sortByDirection();
                 break;
+            case "EBIKES":
+                sortByElectricBikes();
+                break;
             default:
                 sortByDistance();
         }
@@ -455,6 +464,13 @@ public class StationListActivity extends ActionBarActivity {
         if (stationArray == null) return;
 
         Arrays.sort(stationArray, new BikesSorter());
+        refillAdapterFromStationArrayAndNotifyDataSetChanged();
+
+    }
+    public void sortByElectricBikes() {
+        if (stationArray == null) return;
+
+        Arrays.sort(stationArray, new ElectricBikesSorter());
         refillAdapterFromStationArrayAndNotifyDataSetChanged();
 
     }
@@ -505,6 +521,13 @@ public class StationListActivity extends ActionBarActivity {
         public int compare(Station left, Station right)
         {
             return left.getBikesAvailable() < right.getBikesAvailable() ? 1 : -1;
+        }
+    }
+
+    class ElectricBikesSorter implements Comparator<Station> {
+        public int compare(Station left, Station right)
+        {
+            return left.getElectricBikesAvailable() < right.getElectricBikesAvailable() ? 1 : -1;
         }
     }
 

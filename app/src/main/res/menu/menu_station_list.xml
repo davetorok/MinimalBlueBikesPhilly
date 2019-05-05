@@ -24,6 +24,8 @@
         android:orderInCategory="113" app:showAsAction="never" />
     <item android:id="@+id/action_sort_direction" android:title="@string/action_sort_direction"
         android:orderInCategory="114" app:showAsAction="never" />
+        <item android:id="@+id/action_sort_ebikes" android:title="@string/action_sort_ebikes"
+            android:orderInCategory="114" app:showAsAction="never" />
   </menu></item>
 
 

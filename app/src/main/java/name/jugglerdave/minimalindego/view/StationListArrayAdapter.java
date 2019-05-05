@@ -97,7 +97,16 @@ public class StationListArrayAdapter extends ArrayAdapter<Station>
         });
 
         Station this_station = getItem(position);
-        viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon);
+
+        // if ebikes are available...
+        if (this_station.getElectricBikesAvailable() > 0)
+        {
+            viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon_ebike);
+        }
+        else
+        {
+            viewHolder.bikeIconImageView.setImageResource(R.drawable.bicycleicon);
+        }
 
         //try changing color based on bikes available and inactive/active status
         float percentfull = (float) .5 + ((float) 0.5 * (float) (this_station.getBikesAvailable()) / (float) (this_station.getBikesAvailable() + this_station.getDocksAvailable()));

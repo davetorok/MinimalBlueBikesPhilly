@@ -6,8 +6,8 @@
 
     <application
         android:name=".app.MinimalBlueBikesApplication"
-        android:versionCode="3"
-        android:versionName="v1.1"
+        android:versionCode="4"
+        android:versionName="v1.2"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

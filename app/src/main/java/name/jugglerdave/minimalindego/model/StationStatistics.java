@@ -10,6 +10,9 @@ public class StationStatistics implements Serializable {
     int total_docks_available;//available docks
     int total_inactive_docks;// inactive docks / bikes in active stations
     int total_bikes;
+
+
+    int total_electric_bikes;
     int total_stations_active;
     int total_stations;
     int total_stations_inactive;
@@ -18,14 +21,15 @@ public class StationStatistics implements Serializable {
     int total_stations_empty;
     int total_stations_nearly_full;
     int total_stations_nearly_empty;
+    int total_stations_with_electric_bikes;
     public Date refreshDateTime = new Date();
     public StationStatistics() {
         resetStatisticsToZero();
     }
 
     private void resetStatisticsToZero(){
-        total_bikes = total_docks_available = total_stations = total_stations_inactive = total_inactive_docks = 0;
-        total_stations_comingsoon = total_stations_full = total_stations_empty = total_stations_nearly_empty = total_stations_nearly_full = 0;
+        total_bikes = total_docks_available = total_stations = total_stations_inactive = total_inactive_docks = total_electric_bikes = 0;
+        total_stations_comingsoon = total_stations_full = total_stations_empty = total_stations_nearly_empty = total_stations_nearly_full  = total_stations_with_electric_bikes= 0;
     }
 
     public StationStatistics(StationList stats)
@@ -49,6 +53,7 @@ public class StationStatistics implements Serializable {
             total_stations_active++;
             total_docks_available += stat.getDocksAvailable();
             total_bikes += stat.getBikesAvailable();
+            total_electric_bikes += stat.getElectricBikesAvailable();
             total_inactive_docks += stat.getTotalDocks() - (stat.getDocksAvailable() + stat.getBikesAvailable());
 
                 if (stat.getBikesAvailable() == 0) {
@@ -61,6 +66,10 @@ public class StationStatistics implements Serializable {
                     total_stations_full++;
                 } else if (stat.getDocksAvailable() <= 2) {
                     total_stations_nearly_full++;
+                }
+
+                if (stat.getElectricBikesAvailable() > 0) {
+                    total_stations_with_electric_bikes++;
                 }
 
             }
@@ -160,4 +169,21 @@ public class StationStatistics implements Serializable {
     public void setTotal_inactive_docks(int total_inactive_docks) {
         this.total_inactive_docks = total_inactive_docks;
     }
+
+    public int getTotal_electric_bikes() {
+        return total_electric_bikes;
+    }
+
+    public void setTotal_electric_bikes(int total_electric_bikes) {
+        this.total_electric_bikes = total_electric_bikes;
+    }
+
+    public int getTotal_stations_with_electric_bikes() {
+        return total_stations_with_electric_bikes;
+    }
+
+    public void setTotal_stations_with_electric_bikes(int total_stations_with_electric_bikes) {
+        this.total_stations_with_electric_bikes = total_stations_with_electric_bikes;
+    }
+
 }

@@ -20,6 +20,7 @@
     <string name="action_sort_name">Sort by Name</string>
     <string name="action_sort_bikes">Sort by Bikes</string>
     <string name="action_sort_docks">Sort by Docks</string>
+    <string name="action_sort_ebikes">Sort by E-Bikes</string>
     <string name="action_sort_distance">Sort by Distance</string>
     <string name="action_sort_direction">Sort by Direction</string>
     <string name="action_filter_favorites">Show Favorite Stations</string>
@@ -36,6 +37,7 @@
         <item>DOCKS</item>
         <item>NAME</item>
         <item>DIRECTION</item>
+        <item>EBIKES</item>
     </string-array>
     <string-array name="preference_sort_types_strings" >
         <item>Distance from Current Station</item>
@@ -43,6 +45,7 @@
         <item>Docks available</item>
         <item>Station Name</item>
         <item>Direction from Current Station</item>
+        <item>E-Bikes available</item>
     </string-array>
 
     <string name="preference_stale_data_title">Stale Data Warning Time</string>

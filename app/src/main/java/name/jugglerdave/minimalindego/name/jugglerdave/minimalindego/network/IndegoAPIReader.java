@@ -83,6 +83,7 @@ public class IndegoAPIReader {
                     stat.setKioskPublicStatus(station.getProperties().getString("kioskPublicStatus"));
                     stat.setKioskId(station.getProperties().getString("kioskId"));
                     stat.setTotalDocks(station.getProperties().getInt("totalDocks"));
+                    stat.setElectricBikesAvailable(station.getProperties().getInt("electricBikesAvailable"));
                     //add station to stationlist
                     statlist.stations.add(stat);
                 }
