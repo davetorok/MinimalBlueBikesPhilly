@@ -7,6 +7,8 @@
     <string name="string_nohint">(No Hint Available)</string>
     <string name="string_bikes_available">Bikes Available</string>
     <string name="string_bike_available">Bike Available</string>
+    <string name="string_ebikes_available">E-Bikes Available</string>
+    <string name="string_ebike_available">E-Bike Available</string>
     <string name="string_docks_available">Docks Available</string>
     <string name="string_dock_available">Dock Available</string>
     <string name="string_unable_load">Unable to Load Stations</string>

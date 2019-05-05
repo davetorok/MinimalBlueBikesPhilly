@@ -41,6 +41,17 @@ public class StationDetailActivity extends ActionBarActivity {
         tv = (TextView) findViewById(R.id.stationaddresstextview);
         tv.setText(station.getAddressStreet());
 
+        //image for ebikes available vs not
+        // if ebikes are available...
+        if (station.getElectricBikesAvailable() > 0)
+        {
+            bikeIconImageView.setImageResource(R.drawable.bicycleicon_ebike);
+        }
+        else
+        {
+            bikeIconImageView.setImageResource(R.drawable.bicycleicon);
+        }
+
         //docks available
         tv = (TextView) findViewById(R.id.docksavailablenumtextview);
         tv.setText("" + station.getDocksAvailable());
@@ -94,6 +105,8 @@ public class StationDetailActivity extends ActionBarActivity {
         tv = (TextView) findViewById(R.id.bikesavailabletextview);
         tv.setText(station.getBikesAvailable() == 1 ? getString(R.string.string_bike_available) : getString(R.string.string_bikes_available));
 
+        tv = (TextView) findViewById(R.id.ebikesavailabletextview);
+        tv.setText(station.getElectricBikesAvailable() == 1 ? getString(R.string.string_ebike_available) : getString(R.string.string_ebikes_available));
 
 
         //status
