@@ -1,7 +1,7 @@
 # Minimal Blue Bikes Philly
 
 ## About
-Miniaml Blue Bikes Philly (Originally  "MinimalIndego") displays station status for the Indego Bike Share in Philadelphia. There is NO MAP, NO GPS, and works on Android 2.3+.
+Minimal Blue Bikes Philly (Originally  "MinimalIndego") displays station status for the Indego Bike Share in Philadelphia. There is NO MAP, NO GPS, and works on Android 2.3+.
 
 
 ## Why Minimal?
